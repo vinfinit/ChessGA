@@ -7,7 +7,7 @@ Pawn::~Pawn() {}
 
 MoveList Pawn::permissibleMove() {
     int nextMove = 1;
-    MoveList list;
+    MoveList moveList;
     Move move;
     if (color == Color::White) {
         move.push_back(curPos[1] + nextMove);
@@ -20,8 +20,8 @@ MoveList Pawn::permissibleMove() {
     for (MoveType i : move) {
         tmp.push_back(curPos[0]);
         tmp.push_back(i);
-        list.push_back(tmp);
+        moveList.push_back(tmp);
         tmp.clear();
     }
-    return list;
+    return moveList;
 }
