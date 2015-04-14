@@ -11,6 +11,8 @@ QT       -= gui
 TARGET = chess
 CONFIG   -= app_bundle
 
+CONFIG += c++11
+
 TEMPLATE = app
 
 

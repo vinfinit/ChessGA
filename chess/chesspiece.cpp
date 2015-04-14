@@ -1,12 +1,6 @@
 #include "chesspiece.h"
 
-ChessPiece::ChessPiece()
-{
+ChessPiece::ChessPiece(Move curPos, Color color) :
+    curPos(curPos), color(color) {}
 
-}
-
-ChessPiece::~ChessPiece()
-{
-
-}
-
+ChessPiece::~ChessPiece() {}
