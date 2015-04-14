@@ -1,0 +1,6 @@
+#include "chesspiece.h"
+
+ChessPiece::ChessPiece(Move curPos) :
+    curPos(curPos) {}
+
+ChessPiece::~ChessPiece() {}
