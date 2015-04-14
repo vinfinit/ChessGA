@@ -19,9 +19,15 @@ TEMPLATE = app
 SOURCES += main.cpp \
     chesspiece.cpp \
     pawn.cpp \
-    king.cpp
+    king.cpp \
+    queen.cpp \
+    bishop.cpp \
+    rook.cpp
 
 HEADERS += \
     chesspiece.h \
     pawn.h \
-    king.h
+    king.h \
+    queen.h \
+    bishop.h \
+    rook.h

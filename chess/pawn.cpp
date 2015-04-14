@@ -20,7 +20,7 @@ MoveList Pawn::permissibleMove() {
     for (MoveType i : move) {
         tmp.push_back(curPos[0]);
         tmp.push_back(i);
-        moveList.push_back(tmp);
+        if (checkBorder(tmp)) moveList.push_back(tmp);
         tmp.clear();
     }
     return moveList;

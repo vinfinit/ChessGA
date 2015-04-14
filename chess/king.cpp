@@ -5,11 +5,12 @@ King::~King() {}
 MoveList King::permissibleMove() {
     MoveList moveList;
     Move move;
-    for (int i = 0; i < 2; i ++) {
-        for (int j = 0; j < 2; j++) {
+    for (auto i = -1; i < 2; i++) {
+        for (auto j = -1; j < 2; j++) {
+            if (j == i && j == 0) continue;         // avoid move to the same cell
             move.push_back(curPos[0] + i);
             move.push_back(curPos[1] + j);
-            moveList.push_back(move);
+            if (checkBorder(move)) moveList.push_back(move);
             move.clear();
         }
     }
