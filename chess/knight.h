@@ -3,10 +3,10 @@
 
 #include "chesspiece.h"
 
-class Knight : ChessPiece
+class Knight : public ChessPiece
 {
 public:
-    Knight(Move curPos, Color color) : ChessPiece(curPos, color) {}
+    Knight(Move curPos, Color color) : ChessPiece(ChessType::Knight, curPos, color) {}
     ~Knight();
 
     MoveList permissibleMove() override;

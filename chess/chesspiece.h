@@ -13,17 +13,23 @@ const int ENDFIELD = 7;
 // white from 0 to 7, black vice versa
 enum class Color {Black, White};
 
+enum class ChessType {King, Queen, Rook, Bishop, Knight, Pawn};
+
 class ChessPiece
 {
 protected:
+    ChessType type;
     Move curPos;
     Color color;
 public:
-    ChessPiece(Move curPos, Color color);
+    ChessPiece(ChessType type, Move curPos, Color color);
     ~ChessPiece();
 
     bool checkBorder(Move pos);
     virtual MoveList permissibleMove() = 0;
+
+    Move getCurPos() { return curPos; }
+    ChessType getType() { return type; }
 };
 
 #endif // CHESSPIECE_H

@@ -6,7 +6,7 @@
 class King : public ChessPiece
 {
 public:
-    King(Move curPos, Color color) : ChessPiece(curPos, color) {}
+    King(Move curPos, Color color) : ChessPiece(ChessType::King, curPos, color) {}
     ~King();
 
     MoveList permissibleMove() override;

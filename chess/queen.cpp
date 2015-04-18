@@ -17,7 +17,7 @@ MoveList Queen::permissibleMove() {
             if (checkBorder(move)) moveList.push_back(move);
             move.clear();
 
-            move.push_back(curPos[0]);                  // vertical
+            move.push_back(curPos[0]);                      // vertical
             move.push_back(curPos[1] + i);
             if (checkBorder(move)) moveList.push_back(move);
             move.clear();

@@ -6,7 +6,7 @@
 class Bishop : public ChessPiece
 {
 public:
-    Bishop(Move curPos, Color color) : ChessPiece(curPos, color) {}
+    Bishop(Move curPos, Color color) : ChessPiece(ChessType::Bishop, curPos, color) {}
     ~Bishop();
 
     MoveList permissibleMove() override;

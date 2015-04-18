@@ -6,7 +6,7 @@
 class Pawn : public ChessPiece
 {
 public:
-    Pawn(Move curPos, Color color) : ChessPiece(curPos, color) {}
+    Pawn(Move curPos, Color color) : ChessPiece(ChessType::Pawn, curPos, color) {}
     ~Pawn();
 
     MoveList permissibleMove() override;

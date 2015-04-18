@@ -1,18 +1,15 @@
 #include <QDebug>
 
-#include "king.h"
-#include "pawn.h"
-#include "bishop.h"
-#include "queen.h"
-#include "rook.h"
-#include "knight.h"
+#include <iostream>
+
+#include "chesscontroller.h"
 
 int main()
 {
-    auto *king = new Knight({7,4}, Color::Black);
-    MoveList list = king->permissibleMove();
-    for (auto i : list) {
-        qDebug() << i[0] << i[1] << ' ';
+    auto chess = new ChessController();
+
+    foreach (auto item, chess->getWhiteChess()) {
+        std::cout << static_cast<short>(item->getType()) << " {" << item->getCurPos()[0] << ", " << item->getCurPos()[1] << '}' << std::endl;
     }
 
     return 0;

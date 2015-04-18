@@ -12,7 +12,7 @@ MoveList Knight::permissibleMove() {
     tmp.push_back(1);
     tmp.push_back(2);
 
-    for (auto i = 0; i < 8; i += 2 ) {
+    for (auto i = 0; i <= ENDFIELD; i += 2 ) {
         move.push_back(curPos[0] + tmp[i / 2]);
         move.push_back(curPos[1] + (tmp[i / 2] > 0 ? 3 - tmp[i / 2] : 3 + tmp[i / 2]));
         if (checkBorder(move)) moveList.push_back(move);

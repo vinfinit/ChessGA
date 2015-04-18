@@ -6,7 +6,7 @@
 class Rook : public ChessPiece
 {
 public:
-    Rook(Move curPos, Color color) : ChessPiece(curPos, color) {}
+    Rook(Move curPos, Color color) : ChessPiece(ChessType::Rook, curPos, color) {}
     ~Rook();
 
     MoveList permissibleMove() override;

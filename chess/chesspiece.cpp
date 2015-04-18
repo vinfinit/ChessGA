@@ -1,9 +1,13 @@
 #include "chesspiece.h"
 
-ChessPiece::ChessPiece(Move curPos, Color color) :
-    curPos(curPos), color(color) {}
+ChessPiece::ChessPiece(ChessType type, Move curPos, Color color) :
+    type(type),
+    curPos(curPos),
+    color(color) {}
 
-ChessPiece::~ChessPiece() {}
+ChessPiece::~ChessPiece() {
+    curPos.clear();
+}
 
 // game field 8*8
 bool ChessPiece::checkBorder(Move pos) {
