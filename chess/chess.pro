@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     king.cpp \
     queen.cpp \
     bishop.cpp \
-    rook.cpp
+    rook.cpp \
+    knight.cpp
 
 HEADERS += \
     chesspiece.h \
@@ -30,4 +31,5 @@ HEADERS += \
     king.h \
     queen.h \
     bishop.h \
-    rook.h
+    rook.h \
+    knight.h
