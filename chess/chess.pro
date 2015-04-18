@@ -24,7 +24,7 @@ SOURCES += main.cpp \
     bishop.cpp \
     rook.cpp \
     knight.cpp \
-    chesscontroller.cpp
+    chessapi.cpp
 
 HEADERS += \
     chesspiece.h \
@@ -34,4 +34,4 @@ HEADERS += \
     bishop.h \
     rook.h \
     knight.h \
-    chesscontroller.h
+    chessapi.h

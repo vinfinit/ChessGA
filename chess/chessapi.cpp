@@ -1,16 +1,17 @@
-#include "chesscontroller.h"
+#include "chessapi.h"
 
-ChessController::ChessController()
+ChessAPI::ChessAPI() :
+    next(Color::White)
 {
     listWhiteChess = init(Color::White);
     listBlackChess = init(Color::Black);
 }
 
-ChessController::~ChessController() {}
+ChessAPI::~ChessAPI() {}
 
-ListChess ChessController::init(Color color) {
+ChessList ChessAPI::init(Color color) {
     int n = color == Color::Black ? ENDFIELD : STARTFIELD;
-    ListChess listChess;
+    ChessList listChess;
 
     listChess.push_back(new King({ENDFIELD - 3, n}, color));
     listChess.push_back(new Queen({STARTFIELD + 3, n}, color));
@@ -28,4 +29,16 @@ ListChess ChessController::init(Color color) {
         listChess.push_back(new Pawn({STARTFIELD + i, n - 1 > 0 ? n - 1 : n + 1}, color));
     }
     return listChess;
+}
+
+MoveList ChessAPI::getMove(Move from) {
+    ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
+    for (auto item : list)
+        if (item->getCurPos() == from)
+            return mutableMove(item);
+    return {};
+}
+
+MoveList ChessAPI::mutableMove(ChessPiece* chess) {
+
 }
