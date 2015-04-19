@@ -28,6 +28,7 @@ public:
     bool checkBorder(Move pos);
     virtual MoveList permissibleMove() = 0;
     virtual MoveList getBlockMove(Move blockMove, MoveList curMoveList);        // don't override for king, knight and pawn
+    virtual MoveList getAttackMove(MoveList curMoveList);                       // don't override for king and knight
 
     Move getCurPos() const { return curPos; }
     ChessType getType() const { return type; }

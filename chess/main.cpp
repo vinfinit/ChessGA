@@ -16,9 +16,15 @@ int main()
 //        std::cout << move[0] << ' ' << move[1] << std::endl;
 //    }
 
-    chess->move({1, 0}, {2, 2});
+    chess->move({0, 1}, {0, 3});
     chess->move({0, 6}, {0, 4});
-    foreach (auto move, chess->getMoves({2, 1})) {
+
+    chess->move({4, 1}, {4, 3});
+    chess->move({7, 6}, {7, 4});
+
+    chess->move({3, 0}, {6, 3});
+    chess->move({0, 7}, {0, 5});
+    foreach (auto move, chess->getMoveList({5, 0})) {
         std::cout << move[0] << ' ' << move[1] << std::endl;
     }
 

@@ -10,6 +10,7 @@ public:
     ~Pawn();
 
     MoveList permissibleMove() override;
+    MoveList getAttackMove(MoveList) override;
 };
 
 #endif // PAWN_H

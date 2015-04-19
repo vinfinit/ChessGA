@@ -22,6 +22,7 @@ private:
 
     ChessList init(Color color);
     MoveList mutableMove(ChessPiece* chess);
+    MoveList mutableAttack(ChessPiece* chess);
 public:
     ChessAPI();
     ~ChessAPI();
@@ -29,7 +30,8 @@ public:
     ChessList getWhiteChess() const { return listWhiteChess; }
     ChessList getBlackChess() const { return listBlackChess; }
 
-    MoveList getMoves(Move from);
+    MoveList getMoveList(Move from);
+    MoveList getAttackList(Move from);
     bool move(Move from, Move to);
 };
 

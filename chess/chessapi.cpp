@@ -34,13 +34,37 @@ ChessList ChessAPI::init(Color color) {
     return listChess;
 }
 
-MoveList ChessAPI::getMoves(Move from) {
+MoveList ChessAPI::getMoveList(Move from) {
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
 //    std::cout << "from " << from[0] << ' ' << from[1] << std::endl;
     for (auto item : list)
         if (item->getCurPos() == from)
             return mutableMove(item);
     return {};
+}
+
+MoveList ChessAPI::getAttackList(Move from) {
+    ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
+//    std::cout << "from " << from[0] << ' ' << from[1] << std::endl;
+    for (auto item : list)
+        if (item->getCurPos() == from)
+            return mutableAttack(item);
+    return {};
+}
+
+bool ChessAPI::move(Move from, Move to) {
+    ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
+    for (auto item : list)
+        if (item->getCurPos() == from)
+            for (auto move : getMoveList(from))
+                if (to == move) {
+                    item->move(to);
+                    next = next == Color::White ? Color::Black : Color::White;
+                    std::cout << "move true" << std::endl;
+                    return true;
+                }
+    std::cout << "move false" << std::endl;
+    return false;
 }
 
 MoveList ChessAPI::mutableMove(ChessPiece* chess) {
@@ -65,9 +89,10 @@ MoveList ChessAPI::mutableMove(ChessPiece* chess) {
         tmp.clear();
     }
 
-//    for (auto move : permissibleMove) {
-//        std::cout << move[0] << ' ' << move[1] << std::endl;
-//    }
+    std::cout << "Block list: ";
+    for (auto move : blockMoveList) {
+        std::cout << '\t' << move[0] << ' ' << move[1] << std::endl;
+    }
 
     // remove the same move from blockMoveList
     std::set<Move> blockSet(blockMoveList.begin(), blockMoveList.end());
@@ -83,17 +108,16 @@ MoveList ChessAPI::mutableMove(ChessPiece* chess) {
     return permissibleMove;
 }
 
-bool ChessAPI::move(Move from, Move to) {
-    ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
-    for (auto item : list)
-        if (item->getCurPos() == from)
-            for (auto move : getMoves(from))
-                if (to == move) {
-                    item->move(to);
-                    next = next == Color::White ? Color::Black : Color::White;
-                    std::cout << "move true" << std::endl;
-                    return true;
-                }
-    std::cout << "move false" << std::endl;
-    return false;
+MoveList ChessAPI::mutableAttack(ChessPiece *chess) {
+    MoveList attackList = chess->getAttackMove(mutableMove(chess));
+    ChessList chessList = next == Color::White ? listBlackChess : listWhiteChess;
+    MoveList res;
+
+    for (auto move : attackList)
+        for (auto chess : chessList)
+            if (move == chess->getCurPos())
+                res.push_back(move);
+
+    return res;
 }
+

@@ -11,6 +11,7 @@ public:
 
     MoveList permissibleMove() override;
     MoveList getBlockMove(Move blockMove, MoveList curMoveList) override;
+    MoveList getAttackMove(MoveList curMoveList) override;
 };
 
 #endif // QUEEN_H

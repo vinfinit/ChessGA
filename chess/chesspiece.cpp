@@ -26,3 +26,15 @@ MoveList ChessPiece::getBlockMove(Move blockMove, MoveList curMoveList) {
 
     return res;
 }
+
+
+MoveList ChessPiece::getAttackMove(MoveList curMoveList) {
+    MoveList moveList = permissibleMove();
+    MoveList attackList;
+
+    for (auto move : moveList)
+        if (std::find(curMoveList.begin(), curMoveList.end(), move) == curMoveList.end())
+            attackList.push_back(move);
+
+    return attackList;
+}

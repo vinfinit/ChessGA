@@ -25,3 +25,11 @@ MoveList Pawn::permissibleMove() {
     }
     return moveList;
 }
+
+MoveList Pawn::getAttackMove(MoveList) {
+    auto i = color == Color::White ? 1 : -1;
+    MoveList attackList;
+    attackList.push_back({curPos[0] + i, curPos[1] + i});
+    attackList.push_back({curPos[0] - i, curPos[1] + i});
+    return attackList;
+}
