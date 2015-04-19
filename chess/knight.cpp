@@ -25,4 +25,3 @@ MoveList Knight::permissibleMove() {
     }
     return moveList;
 }
-

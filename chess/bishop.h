@@ -10,6 +10,7 @@ public:
     ~Bishop();
 
     MoveList permissibleMove() override;
+    MoveList getBlockMove(Move blockMove, MoveList curMoveList) override;
 };
 
 #endif // BISHOP_H

@@ -10,6 +10,7 @@ public:
     ~Rook();
 
     MoveList permissibleMove() override;
+    MoveList getBlockMove(Move blockMove, MoveList curMoveList) override;
 };
 
 #endif // ROOK_H

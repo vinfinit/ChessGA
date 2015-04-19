@@ -20,3 +20,31 @@ MoveList Rook::permissibleMove() {
     }
     return moveList;
 }
+
+MoveList Rook::getBlockMove(Move blockMove, MoveList curMoveList) {
+    auto x = curPos[0] - blockMove[0];
+    auto y = curPos[1] - blockMove[1];
+    MoveList res;
+
+    if (x < 0 && !y)
+        for (auto move : curMoveList)
+            if (move[0] > x && move[1] == y)
+                res.push_back(move);
+
+    if (x > 0 && !y)
+        for (auto move : curMoveList)
+            if (move[0] < x && move[1] == y)
+                res.push_back(move);
+
+    if (!x && y > 0)
+        for (auto move : curMoveList)
+            if (move[0] == x && move[1] < y)
+                res.push_back(move);
+
+    if (!x && y < 0)
+        for (auto move : curMoveList)
+            if (move[0] == x && move[1] > y)
+                res.push_back(move);
+
+    return res;
+}

@@ -16,3 +16,13 @@ bool ChessPiece::checkBorder(Move pos) {
             return true;
     return false;
 }
+
+MoveList ChessPiece::getBlockMove(Move blockMove, MoveList curMoveList) {
+    MoveList res;
+
+    for (auto move : curMoveList)
+        if (move == blockMove)
+            res.push_back(move);
+
+    return res;
+}

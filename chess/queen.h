@@ -10,6 +10,7 @@ public:
     ~Queen();
 
     MoveList permissibleMove() override;
+    MoveList getBlockMove(Move blockMove, MoveList curMoveList) override;
 };
 
 #endif // QUEEN_H

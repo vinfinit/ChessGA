@@ -26,10 +26,11 @@ public:
     ChessAPI();
     ~ChessAPI();
 
-    ChessList getWhiteChess() { return listWhiteChess; }
-    ChessList getBlackChess() { return listBlackChess; }
+    ChessList getWhiteChess() const { return listWhiteChess; }
+    ChessList getBlackChess() const { return listBlackChess; }
 
-    MoveList getMove(Move from);
+    MoveList getMoves(Move from);
+    bool move(Move from, Move to);
 };
 
 #endif // CHESSAPI_H
