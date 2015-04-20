@@ -3,11 +3,17 @@ import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
 
+import com.bsu.chessGA 1.0
+
 ApplicationWindow {
     title: qsTr("Hello World")
     width: 640
     height: 480
     visible: true
+
+    ChessAPI {
+        id: chess
+    }
 
     menuBar: MenuBar {
         Menu {

@@ -2,8 +2,18 @@ TEMPLATE = app
 
 QT += qml quick widgets
 
+CONFIG += c++11
+
 SOURCES += main.cpp \
-    chesswrapper.cpp
+    chesswrapper.cpp \
+    ../chess/bishop.cpp \
+    ../chess/chessapi.cpp \
+    ../chess/chesspiece.cpp \
+    ../chess/king.cpp \
+    ../chess/knight.cpp \
+    ../chess/pawn.cpp \
+    ../chess/queen.cpp \
+    ../chess/rook.cpp
 
 RESOURCES += qml.qrc
 
@@ -14,4 +24,15 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    chesswrapper.h
+    chesswrapper.h \
+    ../chess/bishop.h \
+    ../chess/chessapi.h \
+    ../chess/chesspiece.h \
+    ../chess/king.h \
+    ../chess/knight.h \
+    ../chess/pawn.h \
+    ../chess/queen.h \
+    ../chess/rook.h
+
+SUBDIRS += \
+    ../chess/chess.pro
