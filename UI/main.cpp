@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 //    auto king = new King({1,1}, Color::Black);
 //    auto api = new ChessAPI();
 
-    qmlRegisterType<ChessWrapper>("com.bsu.chessGA", 1, 0, "ChessAPI");
+    qmlRegisterType<ChessWrapper>("com.bsu.chessGA", 1, 0, "Wrapper");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));

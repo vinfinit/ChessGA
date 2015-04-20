@@ -7,12 +7,12 @@ import com.bsu.chessGA 1.0
 
 ApplicationWindow {
     title: qsTr("Hello World")
-    width: 640
-    height: 480
+    width: 400
+    height: 400
     visible: true
 
-    ChessAPI {
-        id: chess
+    Wrapper {
+        id: api
     }
 
     menuBar: MenuBar {
@@ -20,20 +20,43 @@ ApplicationWindow {
             title: qsTr("&File")
             MenuItem {
                 text: qsTr("&Open")
-                onTriggered: messageDialog.show(qsTr("Open action triggered"));
+                onTriggered: messageDialog.show(qsTr("Open action triggered"))
             }
             MenuItem {
                 text: qsTr("E&xit")
-                onTriggered: Qt.quit();
+                onTriggered: Qt.quit()
             }
         }
     }
 
-    MainForm {
-        anchors.fill: parent
-        button1.onClicked: messageDialog.show(qsTr("Button 1 pressed"))
-        button2.onClicked: messageDialog.show(qsTr("Button 2 pressed"))
-        button3.onClicked: messageDialog.show(qsTr("Button 3 pressed"))
+    Grid {
+        id: qml_grid_chessGrid
+        columns: 8
+        spacing: 0
+        width: parent.width * 0.9
+        height: parent.height * 0.9
+        x: parent.width / 2 - width / 2
+        y: parent.width / 2 - height / 2
+        rows: 8
+
+        // 64 ChessBoard tiles - from top left to buttom right
+        Repeater {
+            id: blocks
+            model: 64
+            Rectangle {
+                width: parent.parent.width / 8 * 0.9
+                height: parent.parent.height / 8 * 0.9
+                color: ((Math.floor(index / 8) % 2) === 0)
+                        ?
+                    (index % 2  === 1 ? "#D18B47" : "#FFCE9E") // light brown &
+                        :
+                    (index % 2  === 0 ? "#D18B47" : "#FFCE9E") // dark brown
+                function getIndex() { return index }
+                ChessPiece {
+                    source: setIndex(parent.getIndex())
+                }
+            }
+         }
     }
 
     MessageDialog {
@@ -45,4 +68,29 @@ ApplicationWindow {
             messageDialog.open();
         }
     }
+
+    Row {
+        anchors.right: parent.right
+        anchors.rightMargin: 4
+        anchors.top: parent.top
+        anchors.topMargin: 4
+        spacing: 4
+
+        WindowButton {
+            id: about
+            source: "qrc:/Buttons/Images/Buttons/info.png"
+            function callback() { aboutWindow.show() }
+        }
+
+        WindowButton {
+            id: exit
+            source: "qrc:/Buttons/Images/Buttons/close.png"
+            function callback() { api.close() }
+        }
+    }
+
+    About {
+        id: aboutWindow
+    }
+
 }

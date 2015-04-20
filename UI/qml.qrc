@@ -2,5 +2,8 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>MainForm.ui.qml</file>
+        <file>WindowButton.qml</file>
+        <file>About.qml</file>
+        <file>ChessPiece.qml</file>
     </qresource>
 </RCC>

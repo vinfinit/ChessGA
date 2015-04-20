@@ -1,0 +1,20 @@
+<RCC>
+    <qresource prefix="/Buttons">
+        <file>Images/Buttons/close.png</file>
+        <file>Images/Buttons/info.png</file>
+    </qresource>
+    <qresource prefix="/ChessPieces">
+        <file>Images/ChessPieces/bishop_black.svg</file>
+        <file>Images/ChessPieces/bishop_white.svg</file>
+        <file>Images/ChessPieces/king_black.svg</file>
+        <file>Images/ChessPieces/king_white.svg</file>
+        <file>Images/ChessPieces/knight_black.svg</file>
+        <file>Images/ChessPieces/knight_white.svg</file>
+        <file>Images/ChessPieces/pawn_black.svg</file>
+        <file>Images/ChessPieces/pawn_white.svg</file>
+        <file>Images/ChessPieces/queen_black.svg</file>
+        <file>Images/ChessPieces/queen_white.svg</file>
+        <file>Images/ChessPieces/rook_black.svg</file>
+        <file>Images/ChessPieces/rook_white.svg</file>
+    </qresource>
+</RCC>

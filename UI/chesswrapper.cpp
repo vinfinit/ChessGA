@@ -1,4 +1,5 @@
 #include "chesswrapper.h"
+#include <QApplication>
 
 ChessWrapper::ChessWrapper(QObject *parent) : QObject(parent)
 {
@@ -10,3 +11,6 @@ ChessWrapper::~ChessWrapper()
 
 }
 
+void ChessWrapper::close() {
+    QApplication::quit();
+}
