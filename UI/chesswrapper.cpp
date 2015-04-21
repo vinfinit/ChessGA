@@ -1,16 +1,17 @@
 #include "chesswrapper.h"
-#include <QApplication>
 
 ChessWrapper::ChessWrapper(QObject *parent) : QObject(parent)
 {
     api = new ChessAPI();
+    emit updateBoard();
 }
 
-ChessWrapper::~ChessWrapper()
-{
+ChessWrapper::~ChessWrapper() {}
 
+QVector<ChessPiece*> ChessWrapper::whiteChess() {
+    return {new Bishop({0, 0}, Color::Black)};
 }
 
-void ChessWrapper::close() {
-    QApplication::quit();
+void ChessWrapper::setWhiteChess(QVector<ChessPiece *> newVector) {
+    ;
 }
