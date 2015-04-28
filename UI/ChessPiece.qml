@@ -25,8 +25,8 @@ Image {
         return "qrc:/ChessPieces/Images/ChessPieces/bishop_black.svg"
     }
 
-    function updateIcon(piece, color) {
-        return "qrc:/ChessPieces/Images/ChessPieces/" + piece + "_" + color + ".svg"
+    function updateIcon(type, color) {
+        return "qrc:/ChessPieces/Images/ChessPieces/" + type + "_" + color + ".svg"
     }
 }
 

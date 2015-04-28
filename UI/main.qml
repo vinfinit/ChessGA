@@ -13,11 +13,6 @@ ApplicationWindow {
 
     Wrapper {
         id: wrapper
-        property variant move: [12, 13, 14]              // example
-
-        function getPiece(pos) {
-            console.log(curPiece)
-        }
     }
 
     menuBar: MenuBar {
@@ -35,7 +30,7 @@ ApplicationWindow {
     }
 
     Grid {
-        id: chessGrid
+        id: qml_grid_chessGrid
         columns: 8
         spacing: 0
         width: parent.width * 0.9
@@ -49,7 +44,6 @@ ApplicationWindow {
             id: blocks
             model: 64
             Rectangle {
-                property int indexCell: index
                 width: parent.parent.width / 8 * 0.9
                 height: parent.parent.height / 8 * 0.9
                 color: ((Math.floor(index / 8) % 2) === 0)
@@ -57,21 +51,29 @@ ApplicationWindow {
                     (index % 2  === 1 ? "#D18B47" : "#FFCE9E") // light brown &
                         :
                     (index % 2  === 0 ? "#D18B47" : "#FFCE9E") // dark brown
-                function getIndex() { return index; }
-                function updateCell(piece, color) {
-                    console.log("in updateCell", index, " curPiece", wrapper.curPos, piece, color);
-                    children[0].source = children[0].updateIcon(piece, color);
-                }
 
-                MouseArea {
-                    onClicked: ""
+                function getIndex() { return index }
+                function updateCell(type, color) {
+                    console.log("in updateCell", index, " curPiece", wrapper.pos, type, color);
+                    children[0].source = children[0].updateIcon(type, color);
                 }
 
                 ChessPiece {
-                    source: ""
+                    source: (function() {
+                        wrapper.pos = parent.getIndex();
+                        return updateIcon(wrapper.type, wrapper.color)
+                    })()
+                }
+
+                MouseArea {
+                    anchors.fill: parent;
+                    onClicked: (function() {
+                        console.log("onClicked: ", parent.getIndex());
+                        wrapper.pos = parent.getIndex();
+                    })()
                 }
             }
-        }
+         }
     }
 
     MessageDialog {
@@ -97,7 +99,7 @@ ApplicationWindow {
             function callback() {
                 console.log(blocks.itemAt(0).children[0].source);           // get access to cell of board
                 aboutWindow.show();
-                blocks.itemAt(wrapper.curPos).updateCell(wrapper.curPiece, wrapper.curColor);           //////////////////////////////////// working string
+                blocks.itemAt(wrapper.pos).updateCell(wrapper.type, wrapper.color);           //////////////////////////////////// working string
             }
         }
 
@@ -113,4 +115,3 @@ ApplicationWindow {
     }
 
 }
-

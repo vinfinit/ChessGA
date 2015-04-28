@@ -4,38 +4,39 @@
 #include "../chess/chessapi.h"
 
 #include <QObject>
-#include <QVector>
 
 class ChessWrapper : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString curPiece READ curPiece WRITE setCurPiece NOTIFY curPieceChanged)
-    Q_PROPERTY(QString curColor READ curColor WRITE setCurColor NOTIFY curColorChanged)
-    Q_PROPERTY(int curPos READ curPos WRITE setCurPos NOTIFY curPosChanged)
-public:
-    ChessAPI *api;
-    explicit ChessWrapper(QObject *parent = 0);
-    ~ChessWrapper();
+        Q_PROPERTY(int pos READ pos WRITE setPos NOTIFY posChanged)
+        Q_PROPERTY(QString color READ color WRITE setColor NOTIFY colorChanged)
+        Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
+    public:
+        ChessAPI *api;
+        explicit ChessWrapper(QObject *parent = 0);
+        ~ChessWrapper();
 
-    QString curPiece();
-    void setCurPiece(QString piece);
+        int pos();
+        void setPos(int pos);
 
-    int curPos();
-    void setCurPos(int pos);
+        QString color();
+        void setColor(QString color);
 
-    QString curColor();
-    void setCurColor(QString color);
+        QString type();
+        void setType(QString type);
 
-signals:
-    void curPieceChanged();
-    void curPosChanged();
-    void curColorChanged();
+    signals:
+        void posChanged();
+        void colorChanged();
+        void typeChanged();
 
-public slots:
+    public slots:
 
 
-private:
-
+    private:
+        int _pos;
+        QString _type;
+        QString _color;
 };
 
 #endif // CHESSWRAPPER_H

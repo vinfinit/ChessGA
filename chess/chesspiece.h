@@ -32,6 +32,7 @@ public:
 
     Move getCurPos() const { return curPos; }
     ChessType getType() const { return type; }
+    Color getColor() const { return color; }
 
     void move(Move to) { curPos = to; }
 };

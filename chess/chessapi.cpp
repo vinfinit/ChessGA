@@ -119,3 +119,12 @@ MoveList ChessAPI::mutableAttack(ChessPiece *chess) {
     return res;
 }
 
+ChessPiece* ChessAPI::piece(Move pos) {
+    for (auto item : listBlackChess)
+        if (item->getCurPos() == pos)
+            return item;
+    for (auto item : listWhiteChess)
+        if (item->getCurPos() == pos)
+            return item;
+    return nullptr;
+}

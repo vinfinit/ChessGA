@@ -33,6 +33,8 @@ public:
     MoveList getMoveList(Move from);
     MoveList getAttackList(Move from);
     bool move(Move from, Move to);
+
+    ChessPiece* piece(Move pos);
 };
 
 #endif // CHESSAPI_H
