@@ -3,15 +3,30 @@
 ChessWrapper::ChessWrapper(QObject *parent) : QObject(parent)
 {
     api = new ChessAPI();
-    emit updateBoard();
 }
 
 ChessWrapper::~ChessWrapper() {}
 
-QVector<ChessPiece*> ChessWrapper::whiteChess() {
-    return {new Bishop({0, 0}, Color::Black)};
+QString ChessWrapper::curPiece() {
+    return "pawn";
 }
 
-void ChessWrapper::setWhiteChess(QVector<ChessPiece *> newVector) {
+int ChessWrapper::curPos() {
+    return 12;
+}
+
+QString ChessWrapper::curColor() {
+    return "white";
+}
+
+void ChessWrapper::setCurColor(QString color) {
+    ;
+}
+
+void ChessWrapper::setCurPos(int pos) {
+    ;
+}
+
+void ChessWrapper::setCurPiece(QString piece) {
     ;
 }

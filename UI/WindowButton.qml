@@ -7,21 +7,18 @@ Image
   height: 20
 
   // Область, обрабатывающая "мышиные" сообщения
-  MouseArea
-  {
+  MouseArea {
     // Действует в пределах всего
     // элемента Image
     anchors.fill: parent
 
     id: mouseArea
 
-    // При нажатии вызвать метод callback
     onClicked: callback()
   }
 
   states : [
       State {
-          // Произвольное название
           name: "hovered"
           // Указание на то, когда элемент переходит в это состояние
           // в данном случае когда нажата левая кнопка мыши

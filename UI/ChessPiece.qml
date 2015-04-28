@@ -20,10 +20,13 @@ Image {
     }
 
     function setIndex(i) {
-        index = i
-        if (i === 63)
+        if (i === 24)
             return "qrc:/ChessPieces/Images/ChessPieces/bishop_white.svg"
         return "qrc:/ChessPieces/Images/ChessPieces/bishop_black.svg"
+    }
+
+    function updateIcon(piece, color) {
+        return "qrc:/ChessPieces/Images/ChessPieces/" + piece + "_" + color + ".svg"
     }
 }
 

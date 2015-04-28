@@ -13,10 +13,11 @@ ApplicationWindow {
 
     Wrapper {
         id: wrapper
-        property variant whitePawnq: whitePawn           // ????????????????????????????????????????
-        property variant move: [12, 13, 14]
+        property variant move: [12, 13, 14]              // example
 
-        function getWhitePawn() { return whitePawnq; }
+        function getPiece(pos) {
+            console.log(curPiece)
+        }
     }
 
     menuBar: MenuBar {
@@ -57,14 +58,17 @@ ApplicationWindow {
                         :
                     (index % 2  === 0 ? "#D18B47" : "#FFCE9E") // dark brown
                 function getIndex() { return index; }
-                function updateCell() {
-                    wrapper.getWhitePawn().forEach(function (item) {                                        // ????????????????????????????????????????
-                        if (item == indexCell)
-                            children[0].source = "qrc:/ChessPieces/Images/ChessPieces/pawn_white.svg";
-                    });
+                function updateCell(piece, color) {
+                    console.log("in updateCell", index, " curPiece", wrapper.curPos, piece, color);
+                    children[0].source = children[0].updateIcon(piece, color);
                 }
+
+                MouseArea {
+                    onClicked: ""
+                }
+
                 ChessPiece {
-                    source: setIndex(parent.getIndex())
+                    source: ""
                 }
             }
         }
@@ -92,8 +96,8 @@ ApplicationWindow {
             source: "qrc:/Buttons/Images/Buttons/info.png"
             function callback() {
                 console.log(blocks.itemAt(0).children[0].source);           // get access to cell of board
-                console.log(blocks.itemAt(7).updateCell());
                 aboutWindow.show();
+                blocks.itemAt(wrapper.curPos).updateCell(wrapper.curPiece, wrapper.curColor);           //////////////////////////////////// working string
             }
         }
 

@@ -9,32 +9,33 @@
 class ChessWrapper : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QVector<ChessPiece*> whiteChess READ whiteChess WRITE setWhiteChess NOTIFY whiteChessChanged)
-    Q_PROPERTY(QVector<int> whitePawn READ whitePawn WRITE setWhitePawn NOTIFY whitePawnChanged)
-//    Q_PROPERTY(QVector<ChessPiece*> blackChess READ blackChess WRITE setBlackChess NOTIFY blackChessChanged)
+    Q_PROPERTY(QString curPiece READ curPiece WRITE setCurPiece NOTIFY curPieceChanged)
+    Q_PROPERTY(QString curColor READ curColor WRITE setCurColor NOTIFY curColorChanged)
+    Q_PROPERTY(int curPos READ curPos WRITE setCurPos NOTIFY curPosChanged)
 public:
     ChessAPI *api;
     explicit ChessWrapper(QObject *parent = 0);
     ~ChessWrapper();
 
-    QVector<ChessPiece*> whiteChess();
-    void setWhiteChess(QVector<ChessPiece*> newVector);
-//    QVector<ChessPiece*> blackChess();
+    QString curPiece();
+    void setCurPiece(QString piece);
 
-    QVector<int> whitePawn() { return {7,8,9}; }
-    void setWhitePawn(QVector<int>) {}
+    int curPos();
+    void setCurPos(int pos);
+
+    QString curColor();
+    void setCurColor(QString color);
 
 signals:
-    void whiteChessChanged();
-    void whitePawnChanged();
-//    void blackChessChanged();
-    void updateBoard();
+    void curPieceChanged();
+    void curPosChanged();
+    void curColorChanged();
 
 public slots:
 
+
 private:
-//    QVector<ChessPiece*> _whiteChess;
-//    QVector<ChessPiece*> _blackChess;
+
 };
 
 #endif // CHESSWRAPPER_H

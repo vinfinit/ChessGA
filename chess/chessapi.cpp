@@ -1,11 +1,13 @@
 #include "chessapi.h"
 #include <set>
+#include <QDebug>
 
 #include <iostream>
 
 ChessAPI::ChessAPI() :
     next(Color::White)
 {
+    qDebug() << "Init\n";
     listWhiteChess = init(Color::White);
     listBlackChess = init(Color::Black);
 }
@@ -89,16 +91,12 @@ MoveList ChessAPI::mutableMove(ChessPiece* chess) {
         tmp.clear();
     }
 
-    std::cout << "Block list: ";
-    for (auto move : blockMoveList) {
-        std::cout << '\t' << move[0] << ' ' << move[1] << std::endl;
-    }
-
     // remove the same move from blockMoveList
     std::set<Move> blockSet(blockMoveList.begin(), blockMoveList.end());
 
+    std::cout << "Block list:\n";
     for (auto move : blockSet) {
-        std::cout << "block " << move[0] << ' ' << move[1] << std::endl;
+        std::cout << '\t' << "block " << move[0] << ' ' << move[1] << std::endl;
     }
 
     // remove from permissibleMove blockSet values
