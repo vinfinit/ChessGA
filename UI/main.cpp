@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 //    auto chessWrapper = new ChessWrapper();
 
     QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.load(QUrl(QStringLiteral("qrc:/MainForm.qml")));
 //    engine.rootContext()->setContextProperty("wrapper", chessWrapper);
 
     return app.exec();

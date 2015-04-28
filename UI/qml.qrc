@@ -4,5 +4,7 @@
         <file>WindowButton.qml</file>
         <file>About.qml</file>
         <file>ChessPiece.qml</file>
+        <file>MainForm.qml</file>
+        <file>MainForm.ui.qml</file>
     </qresource>
 </RCC>

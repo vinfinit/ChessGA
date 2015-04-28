@@ -37,3 +37,6 @@ HEADERS += \
 
 SUBDIRS += \
     ../chess/chess.pro
+
+DISTFILES += \
+    MainForm.ui.qml
