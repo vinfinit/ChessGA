@@ -46,17 +46,34 @@ ApplicationWindow {
             Rectangle {
                 width: parent.parent.width / 8 * 0.9
                 height: parent.parent.height / 8 * 0.9
-                color: ((Math.floor(index / 8) % 2) === 0)
-                        ?
-                    (index % 2  === 1 ? "#D18B47" : "#FFCE9E") // light brown &
-                        :
-                    (index % 2  === 0 ? "#D18B47" : "#FFCE9E") // dark brown
+                color: refresh(true)
+
+                function refresh(flag) {
+                    if (flag) {
+                        return ((Math.floor(getIndex() / 8) % 2) === 0)
+                            ?
+                        (getIndex() % 2  === 1 ? "#D18B47" : "#FFCE9E") // light brown &
+                            :
+                        (getIndex() % 2  === 0 ? "#D18B47" : "#FFCE9E") // dark brown
+                    } else {
+                        for (var i = 0; i < 64; i++)
+                            blocks.itemAt(i).color = blocks.itemAt(i).refresh(true);
+                    }
+                }
+
+                function moveColor(list) {
+                    console.log("int moveColor: ", list[0]);
+                    list.forEach(function(item) {
+                        blocks.itemAt(item).color = "#555"
+                    })
+                }
 
                 function getIndex() { return index }
                 function updateCell(type, color) {
                     console.log("in updateCell", index, " curPiece", wrapper.pos, type, color);
                     children[0].source = children[0].updateIcon(type, color);
                 }
+
 
                 ChessPiece {
                     source: (function() {
@@ -68,8 +85,11 @@ ApplicationWindow {
                 MouseArea {
                     anchors.fill: parent;
                     onClicked: (function() {
-                        console.log("onClicked: ", parent.getIndex());
                         wrapper.pos = parent.getIndex();
+                        var moveList = wrapper.moveList;
+                        parent.refresh();
+                        parent.moveColor(moveList);
+                        console.log("onClicked: ", parent.getIndex(), "moveList", moveList);
                     })()
                 }
             }

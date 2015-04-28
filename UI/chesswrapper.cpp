@@ -2,16 +2,12 @@
 #include <QDebug>
 
 ChessWrapper::ChessWrapper(QObject *parent) :
-    QObject(parent), _pos(0), _type(""), _color("")
-{
-    api = new ChessAPI();
-}
+    QObject(parent), _api(nullptr), _pos(0), _type(""), _color("")
+{ _api = new ChessAPI(); }
 
 ChessWrapper::~ChessWrapper() {}
 
-int ChessWrapper::pos() {
-    return _pos;
-}
+int ChessWrapper::pos() { return _pos; }
 
 void ChessWrapper::setPos(int pos) {
     if (pos <= 63 && pos >= 0) _pos = pos;
@@ -19,7 +15,7 @@ void ChessWrapper::setPos(int pos) {
 }
 
 QString ChessWrapper::color() {
-    auto piece = api->piece({_pos % 8, _pos / 8});
+    auto piece = _api->piece({_pos % 8, _pos / 8});
     if (piece) {
         switch (piece->getColor()) {
         case Color::White:
@@ -41,7 +37,7 @@ QString ChessWrapper::color() {
 void ChessWrapper::setColor(QString) {}
 
 QString ChessWrapper::type() {
-    auto piece = api->piece({_pos % 8, _pos / 8});
+    auto piece = _api->piece({_pos % 8, _pos / 8});
     if (piece) {
         switch (piece->getType()) {
         case ChessType::King:
@@ -73,3 +69,15 @@ QString ChessWrapper::type() {
 }
 
 void ChessWrapper::setType(QString) {}
+
+QList<int> ChessWrapper::moveList() {
+    MoveList list = _api->getMoveList({_pos % 8, _pos / 8});
+    QList<int> res;
+    for (auto move : list)
+        res.push_back(move[0] + move[1] * 8);
+    return res;
+}
+
+void ChessWrapper::setMoveList(QList<int> moveList) {
+    ;
+}
