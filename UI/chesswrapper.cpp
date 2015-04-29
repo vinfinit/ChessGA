@@ -78,6 +78,14 @@ QList<int> ChessWrapper::moveList() {
     return res;
 }
 
-void ChessWrapper::setMoveList(QList<int> moveList) {
-    ;
+void ChessWrapper::setMoveList(QList<int>) {}
+
+QList<int> ChessWrapper::attackList() {
+    MoveList list = _api->getAttackList({_pos % 8, _pos / 8});
+    QList<int> res;
+    for (auto attack : list)
+        res.push_back(attack[0] + attack[1] * 8);
+    return res;
 }
+
+void ChessWrapper::setAttackList(QList<int>) {}

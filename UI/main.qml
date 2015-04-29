@@ -62,9 +62,16 @@ ApplicationWindow {
                 }
 
                 function moveColor(list) {
-                    console.log("int moveColor: ", list[0]);
+                    console.log("int moveColor: ", list);
                     list.forEach(function(item) {
                         blocks.itemAt(item).color = "#555"
+                    })
+                }
+
+                function attackColor(list) {
+                    console.log("int attackColor: ", list);
+                    list.forEach(function(item) {
+                        blocks.itemAt(item).color = "#500"
                     })
                 }
 
@@ -87,9 +94,12 @@ ApplicationWindow {
                     onClicked: (function() {
                         wrapper.pos = parent.getIndex();
                         var moveList = wrapper.moveList;
+                        var attackList = wrapper.attackList;
                         parent.refresh();
                         parent.moveColor(moveList);
+                        parent.attackColor(attackList);
                         console.log("onClicked: ", parent.getIndex(), "moveList", moveList);
+                        console.log("onClicked: ", parent.getIndex(), "attackList", attackList);
                     })()
                 }
             }
