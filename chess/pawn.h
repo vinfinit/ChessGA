@@ -11,6 +11,7 @@ public:
 
     MoveList permissibleMove() override;
     MoveList getAttackMove(MoveList) override;
+    MoveList getBlockMove(Move blockMove, MoveList curMoveList) override;
 };
 
 #endif // PAWN_H

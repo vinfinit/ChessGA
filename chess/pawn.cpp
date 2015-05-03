@@ -1,4 +1,5 @@
 #include "pawn.h"
+#include <iostream>
 
 const int StartWhitePawn = 1;
 const int StartBlackPawn = 6;
@@ -32,4 +33,24 @@ MoveList Pawn::getAttackMove(MoveList) {
     attackList.push_back({curPos[0] + i, curPos[1] + i});
     attackList.push_back({curPos[0] - i, curPos[1] + i});
     return attackList;
+}
+
+MoveList Pawn::getBlockMove(Move blockMove, MoveList curMoveList) {
+    MoveList res;
+    Move tmp;
+
+    for (auto move : curMoveList)
+        if (move == blockMove)
+            res.push_back(move);
+
+    if (curMoveList.size() == 2 && res.size() > 0) {
+        tmp.push_back(curPos[0]);
+        if (color == Color::White)
+            tmp.push_back(curPos[1] + 2);
+        if (color == Color::Black)
+            tmp.push_back(curPos[1] - 2);
+        res.push_back(tmp);
+    }
+
+    return res;
 }
