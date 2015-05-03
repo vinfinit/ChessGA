@@ -32,13 +32,11 @@ ApplicationWindow {
 
     Grid {
         id: qml_grid_chessGrid
-        columns: 8
         spacing: 0
-        width: parent.width * 0.9
-        height: parent.height * 0.9
-        x: parent.width / 2 - width / 2
-        y: parent.width / 2 - height / 2
+        width: parent.height
+        height: parent.height
         rows: 8
+        columns: 8
 
         // 64 ChessBoard tiles - from top left to buttom right
         Repeater {
@@ -46,13 +44,13 @@ ApplicationWindow {
             model: 64
 
             Rectangle {
-                width: parent.parent.width / 8 * 0.9
-                height: parent.parent.height / 8 * 0.9
+                width: parent.width / 8
+                height: parent.height / 8
                 color: refresh(true)
 
                 function refresh(flag) {
                     if (flag) {
-                        return ((Math.floor(getIndex() / 8) % 2) === 0)
+                        return ((Math.floor(getIndex() / 8) % 2) !== 0)
                             ?
                         (getIndex() % 2  === 1 ? "#D18B47" : "#FFCE9E") // light brown &
                             :
@@ -64,7 +62,6 @@ ApplicationWindow {
                 }
 
                 function repaint() {
-                    console.log("repaint",blocks.itemAt(0));
                     for(var i = 0; i < 64; i++) {
                         wrapper.pos = i;
                         blocks.itemAt(i).updateCell(wrapper.type, wrapper.color);
@@ -72,7 +69,6 @@ ApplicationWindow {
                 }
 
                 function moveColor(list) {
-                    console.log("int moveColor: ", list);
                     list.forEach(function(item) {
                         blocks.itemAt(item).color = "#555";
                         wrapper.flag = true;
@@ -80,7 +76,6 @@ ApplicationWindow {
                 }
 
                 function attackColor(list) {
-                    console.log("int attackColor: ", list);
                     list.forEach(function(item) {
                         blocks.itemAt(item).color = "#500";
                         wrapper.flag = true;
@@ -88,11 +83,7 @@ ApplicationWindow {
                 }
 
                 function getIndex() { return index }
-                function updateCell() {
-//                    console.log("in updateCell", index, " curPiece", wrapper.pos, wrapper.type, wrapper.color);
-                    children[0].source = children[0].callback();
-                }
-
+                function updateCell() { children[0].source = children[0].callback() }
 
                 ChessPiece {
                     source: callback();
@@ -152,11 +143,7 @@ ApplicationWindow {
         WindowButton {
             id: about
             source: "qrc:/Buttons/Images/Buttons/info.png"
-            function callback() {
-                console.log(blocks.itemAt(0).children[0].source);           // get access to cell of board
-                aboutWindow.show();
-                blocks.itemAt(wrapper.pos).updateCell(wrapper.type, wrapper.color);           //////////////////////////////////// working string
-            }
+            function callback() { aboutWindow.show(); }
         }
 
         WindowButton {

@@ -11,20 +11,19 @@ int ChessWrapper::pos() { return _pos; }
 
 void ChessWrapper::setPos(int pos) {
     if (pos <= 63 && pos >= 0) _pos = pos;
-    qDebug() << _pos << " in pos c++\n";
 }
 
 int ChessWrapper::moveTo() { return _pos; }
 
 void ChessWrapper::setMoveTo(int to) {
-    _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
+    if (!_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}))
+        _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
 }
 
 int ChessWrapper::moveFrom() { return _moveFrom; }
 
 void ChessWrapper::setMoveFrom(int from) {
     if (from <= 63 && from >= 0) _moveFrom = from;
-    qDebug() << _moveFrom << " in setMoveFrom c++\n";
 }
 
 QString ChessWrapper::color() {

@@ -23,6 +23,8 @@ private:
     ChessList init(Color color);
     MoveList mutableMove(ChessPiece* chess);
     MoveList mutableAttack(ChessPiece* chess);
+
+    bool removeChessPiece(Move pos);
 public:
     ChessAPI();
     ~ChessAPI();
@@ -32,6 +34,8 @@ public:
 
     MoveList getMoveList(Move from);
     MoveList getAttackList(Move from);
+
+    bool attack(Move from, Move to);
     bool move(Move from, Move to);
 
     ChessPiece* piece(Move pos);

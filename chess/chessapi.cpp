@@ -69,10 +69,25 @@ bool ChessAPI::move(Move from, Move to) {
     return false;
 }
 
+bool ChessAPI::attack(Move from, Move to) {
+    ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
+    for (auto item : list)
+        if (item->getCurPos() == from)
+            for (auto move : getAttackList(from))
+                if (to == move) {
+                    this->removeChessPiece(to);
+                    item->move(to);
+                    next = next == Color::White ? Color::Black : Color::White;
+                    std::cout << "attack true" << std::endl;
+                    return true;
+                }
+    std::cout << "attack false" << std::endl;
+    return false;
+}
+
 MoveList ChessAPI::mutableMove(ChessPiece* chess) {
     MoveList blockMoveList, tmp;
     MoveList permissibleMove = chess->permissibleMove();
-//    std::cout << permissibleMove[0][0] << ' ' << permissibleMove[0][1] << std::endl;
     for (auto move : permissibleMove) {
         for (auto white : listWhiteChess) {
             if (move == white->getCurPos()) {
@@ -127,4 +142,21 @@ ChessPiece* ChessAPI::piece(Move pos) {
         if (item->getCurPos() == pos)
             return item;
     return nullptr;
+}
+
+bool ChessAPI::removeChessPiece(Move pos) {
+    std::cout << "in remove chess\n";
+    ChessPiece* chess = nullptr;
+    for (auto item : listBlackChess)
+        if(item->getCurPos() == pos)
+            chess = item;
+    for (auto item : listWhiteChess)
+        if(item->getCurPos() == pos)
+            chess = item;
+    if (chess) {
+        listBlackChess.erase(std::remove(listBlackChess.begin(), listBlackChess.end(), chess), listBlackChess.end());
+        listWhiteChess.erase(std::remove(listWhiteChess.begin(), listWhiteChess.end(), chess), listWhiteChess.end());
+        return true;
+    }
+    return false;
 }
