@@ -13,6 +13,7 @@ ApplicationWindow {
 
     Wrapper {
         id: wrapper
+        property bool flag: false
     }
 
     menuBar: MenuBar {
@@ -43,6 +44,7 @@ ApplicationWindow {
         Repeater {
             id: blocks
             model: 64
+
             Rectangle {
                 width: parent.parent.width / 8 * 0.9
                 height: parent.parent.height / 8 * 0.9
@@ -61,45 +63,69 @@ ApplicationWindow {
                     }
                 }
 
+                function repaint() {
+                    console.log("repaint",blocks.itemAt(0));
+                    for(var i = 0; i < 64; i++) {
+                        wrapper.pos = i;
+                        blocks.itemAt(i).updateCell(wrapper.type, wrapper.color);
+                    }
+                }
+
                 function moveColor(list) {
                     console.log("int moveColor: ", list);
                     list.forEach(function(item) {
-                        blocks.itemAt(item).color = "#555"
+                        blocks.itemAt(item).color = "#555";
+                        wrapper.flag = true;
                     })
                 }
 
                 function attackColor(list) {
                     console.log("int attackColor: ", list);
                     list.forEach(function(item) {
-                        blocks.itemAt(item).color = "#500"
+                        blocks.itemAt(item).color = "#500";
+                        wrapper.flag = true;
                     })
                 }
 
                 function getIndex() { return index }
-                function updateCell(type, color) {
-                    console.log("in updateCell", index, " curPiece", wrapper.pos, type, color);
-                    children[0].source = children[0].updateIcon(type, color);
+                function updateCell() {
+//                    console.log("in updateCell", index, " curPiece", wrapper.pos, wrapper.type, wrapper.color);
+                    children[0].source = children[0].callback();
                 }
 
 
                 ChessPiece {
-                    source: (function() {
+                    source: callback();
+
+                    function callback() {
                         wrapper.pos = parent.getIndex();
                         return updateIcon(wrapper.type, wrapper.color)
-                    })()
+                    }
                 }
 
                 MouseArea {
                     anchors.fill: parent;
                     onClicked: (function() {
-                        wrapper.pos = parent.getIndex();
-                        var moveList = wrapper.moveList;
-                        var attackList = wrapper.attackList;
+                        var moveList, attackList;
+
+                        if (!wrapper.flag) {
+                            wrapper.pos = parent.getIndex();
+                            wrapper.moveFrom = parent.getIndex();
+                            moveList = wrapper.moveList;
+                            attackList = wrapper.attackList;
+                        } else {
+                            wrapper.moveTo = parent.getIndex();
+                            wrapper.flag = false;
+                        }
                         parent.refresh();
-                        parent.moveColor(moveList);
-                        parent.attackColor(attackList);
+
+                        if (moveList || attackList) {
+                            parent.moveColor(moveList);
+                            parent.attackColor(attackList);
+                        }
                         console.log("onClicked: ", parent.getIndex(), "moveList", moveList);
                         console.log("onClicked: ", parent.getIndex(), "attackList", attackList);
+                        parent.repaint();
                     })()
                 }
             }

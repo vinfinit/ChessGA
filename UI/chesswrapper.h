@@ -12,6 +12,9 @@ class ChessWrapper : public QObject
     Q_PROPERTY(QString color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
 
+    Q_PROPERTY(int moveFrom READ moveFrom WRITE setMoveFrom NOTIFY moveFromChanged)
+    Q_PROPERTY(int moveTo READ moveTo WRITE setMoveTo NOTIFY moveToChanged)
+
     Q_PROPERTY(QList<int> moveList READ moveList WRITE setMoveList NOTIFY moveListChanged)
     Q_PROPERTY(QList<int> attackList READ attackList WRITE setAttackList NOTIFY attackListChanged)
     public:
@@ -20,6 +23,12 @@ class ChessWrapper : public QObject
 
         int pos();
         void setPos(int pos);
+
+        int moveTo();
+        void setMoveTo(int to);
+
+        int moveFrom();
+        void setMoveFrom(int from);
 
         QString color();
         void setColor(QString color);
@@ -35,6 +44,8 @@ class ChessWrapper : public QObject
 
     signals:
         void posChanged();
+        void moveToChanged();
+        void moveFromChanged();
         void colorChanged();
         void typeChanged();
         void moveListChanged();
@@ -48,6 +59,7 @@ class ChessWrapper : public QObject
         int _pos;
         QString _type;
         QString _color;
+        int _moveFrom;
 };
 
 #endif // CHESSWRAPPER_H
