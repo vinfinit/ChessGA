@@ -25,6 +25,7 @@ private:
     MoveList mutableAttack(ChessPiece* chess);
 
     bool removeChessPiece(Move pos);
+    bool checkImprovePawn();
 public:
     ChessAPI();
     ~ChessAPI();

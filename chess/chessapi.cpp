@@ -63,6 +63,7 @@ bool ChessAPI::move(Move from, Move to) {
                     item->move(to);
                     next = next == Color::White ? Color::Black : Color::White;
                     std::cout << "move true" << std::endl;
+                    checkImprovePawn();
                     return true;
                 }
     std::cout << "move false" << std::endl;
@@ -79,6 +80,7 @@ bool ChessAPI::attack(Move from, Move to) {
                     item->move(to);
                     next = next == Color::White ? Color::Black : Color::White;
                     std::cout << "attack true" << std::endl;
+                    checkImprovePawn();
                     return true;
                 }
     std::cout << "attack false" << std::endl;
@@ -156,6 +158,28 @@ bool ChessAPI::removeChessPiece(Move pos) {
     if (chess) {
         listBlackChess.erase(std::remove(listBlackChess.begin(), listBlackChess.end(), chess), listBlackChess.end());
         listWhiteChess.erase(std::remove(listWhiteChess.begin(), listWhiteChess.end(), chess), listWhiteChess.end());
+        return true;
+    }
+    return false;
+}
+
+bool ChessAPI::checkImprovePawn() {
+    std::cout << "in checkImprovePawn\n";
+    ChessPiece* chess = nullptr;
+    for (auto item : listBlackChess)
+        if (item->getType() == ChessType::Pawn && item->getCurPos()[1] == 0)
+            chess = item;
+    for (auto item : listWhiteChess)
+        if (item->getType() == ChessType::Pawn && item->getCurPos()[1] == 7)
+            chess = item;
+    if (chess) {
+        if (chess->getColor() == Color::Black) {
+            listBlackChess.push_back(new Queen(chess->getCurPos(), chess->getColor()));
+            listBlackChess.erase(std::remove(listBlackChess.begin(), listBlackChess.end(), chess), listBlackChess.end());
+        } else {
+            listWhiteChess.push_back(new Queen(chess->getCurPos(), chess->getColor()));
+            listWhiteChess.erase(std::remove(listWhiteChess.begin(), listWhiteChess.end(), chess), listWhiteChess.end());
+        }
         return true;
     }
     return false;
