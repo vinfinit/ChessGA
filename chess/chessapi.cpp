@@ -5,7 +5,7 @@
 #include <iostream>
 
 ChessAPI::ChessAPI() :
-    next(Color::White)
+    next(Color::White), res(ChessRes::None)
 {
     qDebug() << "Init\n";
     listWhiteChess = init(Color::White);
@@ -46,18 +46,15 @@ MoveList ChessAPI::getMoveList(Move from) {
             qDebug() << "moveList all good\n";
             for (auto i : moveList) {
                 item->move(i);
-//                next = next == Color::White ? Color::Black : Color::White;
                 if (checkMate(next).size()) {
                     qDebug() << "King was dangerous !!!!!!!!!!\n";
                     blockList.push_back(i);
                 }
                 item->move(from);
-//                next = next == Color::White ? Color::Black : Color::White;
                 qDebug() << i[0] << ' ' << i[1] << '\n';
             }
             break;
         }
-//    next = next == Color::White ? Color::Black : Color::White;
 
     // remove from moveList blockList values
     for (auto move : blockList) {
@@ -236,4 +233,28 @@ Move ChessAPI::checkMate(Color color) {
     }
     next = next == Color::White ? Color::Black : Color::White;
     return {};
+}
+
+ChessRes ChessAPI::getRes() {
+    ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
+    Move kingPos;
+    res = ChessRes::Draw;
+
+    for (auto item : list) {
+        if (getMoveList(item->getCurPos()).size() || getAttackList(item->getCurPos()).size()) {
+            res = ChessRes::None;
+            return res;
+        }
+        if (item->getType() == ChessType::King) kingPos = item->getCurPos();
+    }
+
+    list = next == Color::White ? listBlackChess : listWhiteChess;
+    for (auto item : list) {
+        if (getAttackList(item->getCurPos()).size()) {
+            res = ChessRes::Mate;
+            return res;
+        }
+    }
+
+    return res;
 }

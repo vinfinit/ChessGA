@@ -82,6 +82,16 @@ QString ChessWrapper::type() {
 
 void ChessWrapper::setType(QString) {}
 
+int ChessWrapper::res() {
+    ChessRes tmp = _api->getRes();
+    if (tmp == ChessRes::None) return 0;
+    if (tmp == ChessRes::Draw) return 1;
+    if (tmp == ChessRes::Mate) return 2;
+    return 0;
+}
+
+void ChessWrapper::setRes(int) {}
+
 QList<int> ChessWrapper::moveList() {
     MoveList list = _api->getMoveList({_pos % 8, _pos / 8});
     QList<int> res;

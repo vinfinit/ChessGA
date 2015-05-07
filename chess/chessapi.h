@@ -12,6 +12,8 @@
 
 typedef std::vector<ChessPiece*> ChessList;
 
+enum class ChessRes {Mate, Draw, None};
+
 class ChessAPI
 {
 private:
@@ -26,6 +28,8 @@ private:
 
     bool removeChessPiece(Move pos);
     bool checkImprovePawn();
+
+    ChessRes res;
 public:
     ChessAPI();
     ~ChessAPI();
@@ -36,6 +40,7 @@ public:
     MoveList getMoveList(Move from);
     MoveList getAttackList(Move from);
     Move checkMate(Color color);
+    ChessRes getRes();
 
     bool attack(Move from, Move to);
     bool move(Move from, Move to);
