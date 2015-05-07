@@ -35,6 +35,7 @@ public:
 
     MoveList getMoveList(Move from);
     MoveList getAttackList(Move from);
+    Move checkMate(Color color);
 
     bool attack(Move from, Move to);
     bool move(Move from, Move to);

@@ -1,5 +1,4 @@
 #include "rook.h"
-#include <iostream>
 
 Rook::~Rook() {}
 
@@ -30,10 +29,6 @@ MoveList Rook::getBlockMove(Move blockMove, MoveList curMoveList) {
     Move t;
     t.push_back(1);
     t.push_back(7);
-    if (blockMove == t) {
-        std::cout << "Hellos" << std::endl;
-    }
-    std::cout << "block {" << blockMove[0] << ", " << blockMove[1] << "}" << std::endl;
 
     if (x < 0 && !y)
         for (auto move : curMoveList)

@@ -71,15 +71,15 @@ ApplicationWindow {
                 function moveColor(list) {
                     list.forEach(function(item) {
                         blocks.itemAt(item).color = "#555";
-                        wrapper.flag = true;
-                    })
+                    });
+                    wrapper.flag = true;
                 }
 
                 function attackColor(list) {
                     list.forEach(function(item) {
                         blocks.itemAt(item).color = "#500";
-                        wrapper.flag = true;
-                    })
+                    });
+                    wrapper.flag = true;
                 }
 
                 function getIndex() { return index }

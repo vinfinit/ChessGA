@@ -1,5 +1,4 @@
 #include "pawn.h"
-#include <iostream>
 
 const int StartWhitePawn = 1;
 const int StartBlackPawn = 6;

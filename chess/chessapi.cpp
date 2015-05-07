@@ -35,24 +35,51 @@ ChessList ChessAPI::init(Color color) {
     }
     return listChess;
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////
 MoveList ChessAPI::getMoveList(Move from) {
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
-//    std::cout << "from " << from[0] << ' ' << from[1] << std::endl;
+    MoveList moveList, blockList;
+
     for (auto item : list)
-        if (item->getCurPos() == from)
-            return mutableMove(item);
-    return {};
+        if (item->getCurPos() == from) {
+            moveList = mutableMove(item);
+            qDebug() << "moveList all good\n";
+            for (auto i : moveList) {
+                item->move(i);
+//                next = next == Color::White ? Color::Black : Color::White;
+                if (checkMate(next).size()) {
+                    qDebug() << "King was dangerous !!!!!!!!!!\n";
+                    blockList.push_back(i);
+                }
+                item->move(from);
+//                next = next == Color::White ? Color::Black : Color::White;
+                qDebug() << i[0] << ' ' << i[1] << '\n';
+            }
+            break;
+        }
+//    next = next == Color::White ? Color::Black : Color::White;
+
+    // remove from moveList blockList values
+    for (auto move : blockList) {
+        qDebug() << "Block list new " << move[0] << ' ' << move[1] << '\n';
+        if (next == Color::White)
+            qDebug() << "white\n";
+        else qDebug() << "Black\n";
+        moveList.erase(std::remove(moveList.begin(), moveList.end(), move), moveList.end());
+    }
+
+    return moveList;
 }
 
 MoveList ChessAPI::getAttackList(Move from) {
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
-//    std::cout << "from " << from[0] << ' ' << from[1] << std::endl;
+
     for (auto item : list)
         if (item->getCurPos() == from)
             return mutableAttack(item);
     return {};
 }
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ChessAPI::move(Move from, Move to) {
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
@@ -111,10 +138,10 @@ MoveList ChessAPI::mutableMove(ChessPiece* chess) {
     // remove the same move from blockMoveList
     std::set<Move> blockSet(blockMoveList.begin(), blockMoveList.end());
 
-    std::cout << "Block list:\n";
-    for (auto move : blockSet) {
-        std::cout << '\t' << "block " << move[0] << ' ' << move[1] << std::endl;
-    }
+//    std::cout << "Block list:\n";
+//    for (auto move : blockSet) {
+//        std::cout << '\t' << "block " << move[0] << ' ' << move[1] << std::endl;
+//    }
 
     // remove from permissibleMove blockSet values
     for (auto move : blockSet)
@@ -183,4 +210,30 @@ bool ChessAPI::checkImprovePawn() {
         return true;
     }
     return false;
+}
+
+Move ChessAPI::checkMate(Color color) {
+    ChessList list = color == Color::White ? listWhiteChess : listBlackChess;
+
+    Move kingPos;
+    for (auto chess : list)
+        if (chess->getType() == ChessType::King)
+            kingPos = chess->getCurPos();
+    qDebug() << "in checkMate king pos " << kingPos[0] << ' ' << kingPos[1] << '\n';
+
+    list.clear();
+    list = color == Color::White ? listBlackChess : listWhiteChess;
+
+    next = next == Color::White ? Color::Black : Color::White;
+    for (auto chess : list) {
+        for (auto move : mutableAttack(chess)) {
+            qDebug() << "in checkMate " << move[0] << ' ' << move[1] << '\n';
+            if (move == kingPos) {
+                next = next == Color::White ? Color::Black : Color::White;
+                return kingPos;
+            }
+        }
+    }
+    next = next == Color::White ? Color::Black : Color::White;
+    return {};
 }
