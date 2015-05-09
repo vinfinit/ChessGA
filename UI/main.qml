@@ -82,6 +82,11 @@ ApplicationWindow {
                     wrapper.flag = true;
                 }
 
+                function checkColor(pos) {
+                    console.log("check color");
+                    blocks.itemAt(pos).color = "#404"
+                }
+
                 function getIndex() { return index }
                 function updateCell() { children[0].source = children[0].callback() }
 
@@ -109,6 +114,8 @@ ApplicationWindow {
                             wrapper.flag = false;
                         }
                         parent.refresh();
+
+                        if (wrapper.check !== -1) parent.checkColor(wrapper.check)
 
                         if (moveList || attackList) {
                             parent.moveColor(moveList);

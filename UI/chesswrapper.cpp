@@ -111,3 +111,12 @@ QList<int> ChessWrapper::attackList() {
 }
 
 void ChessWrapper::setAttackList(QList<int>) {}
+
+int ChessWrapper::check() {
+    Move check = _api->checkMate(Color::White);
+    if (!check.size()) check = _api->checkMate(Color::Black);
+    if (!check.size()) return -1;
+    return check[0] + check[1] * 8;
+}
+
+void ChessWrapper::setCheck(int) {}
