@@ -70,10 +70,27 @@ MoveList ChessAPI::getMoveList(Move from) {
 
 MoveList ChessAPI::getAttackList(Move from) {
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
+    ChessPiece* tmp;
+    MoveList attackList, blockList;
 
     for (auto item : list)
-        if (item->getCurPos() == from)
-            return mutableAttack(item);
+        if (item->getCurPos() == from) {
+            attackList = mutableAttack(item);
+            qDebug() << "attackList all good\n";
+            for (auto i : attackList) {
+                tmp = piece(i);
+                this->removeChessPiece(i);
+                item->move(i);
+                if (checkMate(next).size()) {
+                    qDebug() << "King was dangerous !!!!!!!!!!\n";
+                    blockList.push_back(i);
+                }
+                item->move(from);
+                (next == Color::White ? listBlackChess : listWhiteChess).push_back(tmp);
+                qDebug() << i[0] << ' ' << i[1] << '\n';
+            }
+            break;
+        }
     return {};
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
