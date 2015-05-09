@@ -4,8 +4,9 @@ Rectangle
 {
     id: about
 
-    function show() {
-        about.opacity = 1
+    function show(label) {
+        about.opacity = 1;
+        text.text = label;
     }
 
     function hide() {
@@ -57,6 +58,7 @@ Rectangle
         border.color: "gray"
 
         Text {
+            id: text
             text: "4 Toddler"
 
             font.bold: true

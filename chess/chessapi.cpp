@@ -69,6 +69,7 @@ MoveList ChessAPI::getMoveList(Move from) {
 }
 
 MoveList ChessAPI::getAttackList(Move from) {
+//    if (getRes() != ChessRes::None) return {};
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
     ChessPiece* tmp;
     MoveList attackList, blockList;
@@ -91,11 +92,22 @@ MoveList ChessAPI::getAttackList(Move from) {
             }
             break;
         }
-    return {};
+
+    // remove from attackList blockList values
+    for (auto move : blockList) {
+        qDebug() << "Block list new " << move[0] << ' ' << move[1] << '\n';
+        if (next == Color::White)
+            qDebug() << "white\n";
+        else qDebug() << "Black\n";
+        attackList.erase(std::remove(attackList.begin(), attackList.end(), move), attackList.end());
+    }
+
+    return attackList;
 }
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ChessAPI::move(Move from, Move to) {
+//    if (getRes() != ChessRes::None) return {};
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
     for (auto item : list)
         if (item->getCurPos() == from)
@@ -112,6 +124,7 @@ bool ChessAPI::move(Move from, Move to) {
 }
 
 bool ChessAPI::attack(Move from, Move to) {
+//    if (getRes() != ChessRes::None) return {};
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
     for (auto item : list)
         if (item->getCurPos() == from)
@@ -151,11 +164,6 @@ MoveList ChessAPI::mutableMove(ChessPiece* chess) {
 
     // remove the same move from blockMoveList
     std::set<Move> blockSet(blockMoveList.begin(), blockMoveList.end());
-
-//    std::cout << "Block list:\n";
-//    for (auto move : blockSet) {
-//        std::cout << '\t' << "block " << move[0] << ' ' << move[1] << std::endl;
-//    }
 
     // remove from permissibleMove blockSet values
     for (auto move : blockSet)
@@ -228,8 +236,8 @@ bool ChessAPI::checkImprovePawn() {
 
 Move ChessAPI::checkMate(Color color) {
     ChessList list = color == Color::White ? listWhiteChess : listBlackChess;
-
     Move kingPos;
+
     for (auto chess : list)
         if (chess->getType() == ChessType::King)
             kingPos = chess->getCurPos();
@@ -258,7 +266,7 @@ ChessRes ChessAPI::getRes() {
     res = ChessRes::Draw;
 
     for (auto item : list) {
-        if (getMoveList(item->getCurPos()).size() || getAttackList(item->getCurPos()).size()) {
+        if ((getMoveList(item->getCurPos())).size() || getAttackList(item->getCurPos()).size()) {
             res = ChessRes::None;
             return res;
         }

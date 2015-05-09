@@ -34,18 +34,14 @@ public:
     ChessAPI();
     ~ChessAPI();
 
-    ChessList getWhiteChess() const { return listWhiteChess; }
-    ChessList getBlackChess() const { return listBlackChess; }
-
     MoveList getMoveList(Move from);
     MoveList getAttackList(Move from);
     Move checkMate(Color color);
     ChessRes getRes();
+    ChessPiece* piece(Move pos);
 
     bool attack(Move from, Move to);
     bool move(Move from, Move to);
-
-    ChessPiece* piece(Move pos);
 };
 
 #endif // CHESSAPI_H

@@ -143,7 +143,13 @@ ApplicationWindow {
         WindowButton {
             id: about
             source: "qrc:/Buttons/Images/Buttons/info.png"
-            function callback() { aboutWindow.show(); }
+            function callback() {
+                var tmp, res = wrapper.res;
+                if (res == 0) tmp = "None";
+                if (res == 1) tmp = "Draw";
+                if (res == 2) tmp = "Mate"
+                aboutWindow.show(tmp);
+            }
         }
 
         WindowButton {
