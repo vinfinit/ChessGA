@@ -273,12 +273,9 @@ ChessRes ChessAPI::getRes() {
         if (item->getType() == ChessType::King) kingPos = item->getCurPos();
     }
 
-    list = next == Color::White ? listBlackChess : listWhiteChess;
-    for (auto item : list) {
-        if (getAttackList(item->getCurPos()).size()) {
-            res = ChessRes::Mate;
-            return res;
-        }
+    if (checkMate(next).size()) {
+        res = ChessRes::Mate;
+        return res;
     }
 
     return res;
