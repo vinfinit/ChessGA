@@ -42,8 +42,8 @@ Rectangle
         id: dialog
 
         // Ширина и высота являются фиксированными
-        width: 360
-        height: 230
+        width: parent.width * 0.8
+        height: parent.height * 0.8
 
         // Координаты верхнего левого угла вычисляются
         // исходя из размеров самого диалога и родителя
@@ -75,8 +75,7 @@ Rectangle
         NumberAnimation { duration: 100 }
     }
 
-    MouseArea
-    {
+    MouseArea {
         // Элемент полностью заполняет родительский элемент
         anchors.fill: parent;
 

@@ -20,11 +20,14 @@ ApplicationWindow {
         Menu {
             title: qsTr("&File")
             MenuItem {
-                text: qsTr("&Open")
-                onTriggered: messageDialog.show(qsTr("Open action triggered"))
+                text: qsTr("&New")
+                shortcut: "Ctrl+N"
+                onTriggered: loadWindow.show()
             }
+
             MenuItem {
                 text: qsTr("E&xit")
+                shortcut: "Ctrl+Q"
                 onTriggered: Qt.quit()
             }
         }
@@ -100,8 +103,11 @@ ApplicationWindow {
                 }
 
                 MouseArea {
+                    id: controller
                     anchors.fill: parent;
-                    onClicked: (function() {
+                    onClicked: initTwo();
+
+                    function initTwo() {
                         var moveList, attackList;
 
                         if (!wrapper.flag) {
@@ -124,9 +130,9 @@ ApplicationWindow {
                         console.log("onClicked: ", parent.getIndex(), "moveList", moveList);
                         console.log("onClicked: ", parent.getIndex(), "attackList", attackList);
                         parent.repaint();
-                    })()
+                    }
                 }
-            }
+             }
          }
     }
 
@@ -168,6 +174,16 @@ ApplicationWindow {
 
     About {
         id: aboutWindow
+    }
+
+    LoadWindow {
+        id: loadWindow
+        opacity: 1
+
+        function callback() {
+            console.log("hello");
+            loadWindow.hide();
+        }
     }
 
 }
