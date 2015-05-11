@@ -11,12 +11,30 @@ Rectangle {
     opacity: 0
     visible: opacity > 0
 
+    property int curPlayers: 0
+    property int curColor: 0
+
+    onCurPlayersChanged: {
+        one.checked = curPlayers == 0
+        two.checked = curPlayers == 1
+        if (curPlayers == 1) {
+            colorRow.enabled = false
+            curColor = 0
+        } else {
+            colorRow.enabled = true
+        }
+    }
+
+    onCurColorChanged: {
+        white.checked = curColor == 0
+        black.checked = curColor == 1
+    }
+
     function hide() {
         loadWindow.opacity = 0
     }
 
     function show() {
-        console.log("heoolllsd")
         loadWindow.opacity = 1
     }
 
@@ -56,31 +74,48 @@ Rectangle {
 
                     ExclusiveGroup { id: players }
                     RadioButton {
+                        id: one
                         text: "One"
                         checked: true
                         exclusiveGroup: players
+                        onClicked: {
+                            curPlayers = 0
+                        }
                     }
                     RadioButton {
+                        id: two
                         text: "Two"
                         exclusiveGroup: players
+                        onClicked: {
+                            curPlayers = 1
+                        }
                     }
                 }
 
                 Row {
+                    id: colorRow
                     spacing: 10
                     Text { text: qsTr("Play as") }
 
-                    enabled: false
+//                    enabled: false
 
                     ExclusiveGroup { id: color }
                     RadioButton {
+                        id: white
                         text: "White"
                         checked: true
                         exclusiveGroup: color
+                        onClicked: {
+                            curColor = 0
+                        }
                     }
                     RadioButton {
+                        id: black
                         text: "Black"
                         exclusiveGroup: color
+                        onClicked: {
+                            curColor = 1
+                        }
                     }
                 }
 

@@ -107,6 +107,12 @@ ApplicationWindow {
                     anchors.fill: parent;
                     onClicked: initTwo();
 
+                    // for one player
+                    function initOne(color) {
+
+                    }
+
+                    // for two player
                     function initTwo() {
                         var moveList, attackList;
 
@@ -181,7 +187,9 @@ ApplicationWindow {
         opacity: 1
 
         function callback() {
-            console.log("hello");
+            console.log("Players: ", curPlayers);
+            console.log("Color: ", curColor);
+
             loadWindow.hide();
         }
     }
