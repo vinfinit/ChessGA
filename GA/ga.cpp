@@ -2,22 +2,26 @@
 #include <QDebug>
 
 GA::GA(Color color) :
-    _api(nullptr), _color(color)
-{ _api = new ChessAPI(); }
+    _api(nullptr), _color(color), _first(false)
+{
+    _api = new ChessAPI();
+    _first = _color == Color::White ? true : false;
+}
 
-GA::~GA()
-{ delete _api; }
+GA::~GA() { delete _api; }
 
 Color GA::color() { return _color; }
 
 MoveList GA::move(Move from, Move to) {
     qDebug() << "GA move in GA\n";
+    if (_first) return generateMove();
     if (_api->move(from, to)) return generateMove();
     else if (_api->attack(from, to)) return generateMove();
     else return {};
 }
 
 MoveList GA::generateMove() {
+    _first = false;
     qDebug() << "GA generateMove: ";
     if (_color != _api->getColor()) return {};
     qDebug() << "GA generateMove after return{}\n";

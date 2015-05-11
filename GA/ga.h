@@ -14,6 +14,7 @@ public:
 private:
     ChessAPI* _api;
     Color _color;
+    bool _first;
 
     MoveList generateMove();
 };

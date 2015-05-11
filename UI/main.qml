@@ -184,8 +184,10 @@ ApplicationWindow {
             console.log("Players: ", curPlayers);
             console.log("Color: ", curColor);
 
-            wrapper.colorGA = curColor == 0 ? 1 : 0
+            wrapper.colorGA = curColor == 0 ? 1 : 0;
+            wrapper.players = curPlayers;
             loadWindow.hide();
+            blocks.itemAt(0).repaint();
         }
     }
 
