@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     chess \
-    UI
+    UI \
+    GA

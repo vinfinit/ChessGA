@@ -280,3 +280,7 @@ ChessRes ChessAPI::getRes() {
 
     return res;
 }
+
+Color ChessAPI::getColor() {
+    return next;
+}

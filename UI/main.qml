@@ -105,15 +105,9 @@ ApplicationWindow {
                 MouseArea {
                     id: controller
                     anchors.fill: parent;
-                    onClicked: initTwo();
+                    onClicked: move();
 
-                    // for one player
-                    function initOne(color) {
-
-                    }
-
-                    // for two player
-                    function initTwo() {
+                    function move() {
                         var moveList, attackList;
 
                         if (!wrapper.flag) {
@@ -190,6 +184,7 @@ ApplicationWindow {
             console.log("Players: ", curPlayers);
             console.log("Color: ", curColor);
 
+            wrapper.colorGA = curColor == 0 ? 1 : 0
             loadWindow.hide();
         }
     }

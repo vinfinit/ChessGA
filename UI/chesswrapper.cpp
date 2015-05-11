@@ -2,10 +2,17 @@
 #include <QDebug>
 
 ChessWrapper::ChessWrapper(QObject *parent) :
-    QObject(parent), _api(nullptr), _pos(0), _type(""), _color(""), _moveFrom(0)
+    QObject(parent), _api(nullptr), _ga(nullptr), _pos(0), _type(""), _color(""), _moveFrom(0)
 { _api = new ChessAPI(); }
 
 ChessWrapper::~ChessWrapper() {}
+
+int ChessWrapper::colorGA() { return _ga->color() == Color::White ? 0 : 1; }
+
+void ChessWrapper::setColorGA(int color) {
+    _ga = new GA(color == 0 ? Color::White : Color::Black);
+    qDebug() << "setColorGA: " << (_ga->color() == Color::White ? "White" : "Black");
+}
 
 int ChessWrapper::pos() { return _pos; }
 
@@ -16,8 +23,17 @@ void ChessWrapper::setPos(int pos) {
 int ChessWrapper::moveTo() { return _pos; }
 
 void ChessWrapper::setMoveTo(int to) {
-    if (!_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}))
-        _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
+    qDebug() << "setMoveTo curColor: " << (_api->getColor() == Color::White ? "White" : "Black");
+    qDebug() << "setMoveTo GAcolor: " << (_ga->color() == Color::White ? "White" : "Black");
+    if (_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) || _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8})) {
+        auto list = _ga->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
+        if (!_api->move(list[0], list[1]))
+            _api->attack(list[0], list[1]);
+    }
+
+    if (_api->getColor() != _ga->color()) {
+
+    }
 }
 
 int ChessWrapper::moveFrom() { return _moveFrom; }

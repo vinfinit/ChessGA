@@ -2,6 +2,7 @@
 #define CHESSWRAPPER_H
 
 #include "../chess/chessapi.h"
+#include "../GA/ga.h"
 
 #include <QObject>
 
@@ -12,6 +13,7 @@ class ChessWrapper : public QObject
     Q_PROPERTY(QString color READ color WRITE setColor NOTIFY colorChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(int res READ res WRITE setRes NOTIFY resChanged)
+    Q_PROPERTY(int colorGA READ colorGA WRITE setColorGA NOTIFY colorGAChanged)
 
     Q_PROPERTY(int moveFrom READ moveFrom WRITE setMoveFrom NOTIFY moveFromChanged)
     Q_PROPERTY(int moveTo READ moveTo WRITE setMoveTo NOTIFY moveToChanged)
@@ -22,6 +24,9 @@ class ChessWrapper : public QObject
     public:
         explicit ChessWrapper(QObject *parent = 0);
         ~ChessWrapper();
+
+        int colorGA();
+        void setColorGA(int color);
 
         int pos();
         void setPos(int pos);
@@ -51,6 +56,7 @@ class ChessWrapper : public QObject
         void setCheck(int);
 
     signals:
+        void colorGAChanged();
         void posChanged();
         void moveToChanged();
         void moveFromChanged();
@@ -66,6 +72,8 @@ class ChessWrapper : public QObject
 
     private:
         ChessAPI *_api;
+        GA *_ga;
+
         int _pos;
         QString _type;
         QString _color;

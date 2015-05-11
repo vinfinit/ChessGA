@@ -1,11 +1,12 @@
-TEMPLATE = app
+QT       += core
+QT       -= gui
 
-QT += qml quick widgets
-
+CONFIG   -= app_bundle
 CONFIG += c++11
 
+TEMPLATE = app
+
 SOURCES += main.cpp \
-    chesswrapper.cpp \
     ../chess/bishop.cpp \
     ../chess/chessapi.cpp \
     ../chess/chesspiece.cpp \
@@ -14,19 +15,12 @@ SOURCES += main.cpp \
     ../chess/pawn.cpp \
     ../chess/queen.cpp \
     ../chess/rook.cpp \
-    ../GA/ga.cpp
+    ga.cpp
 
-RESOURCES += qml.qrc \
-    images.qrc
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Default rules for deployment.
 include(deployment.pri)
+qtcAddDeployment()
 
 HEADERS += \
-    chesswrapper.h \
     ../chess/bishop.h \
     ../chess/chessapi.h \
     ../chess/chesspiece.h \
@@ -35,7 +29,5 @@ HEADERS += \
     ../chess/pawn.h \
     ../chess/queen.h \
     ../chess/rook.h \
-    ../GA/ga.h
+    ga.h
 
-SUBDIRS += \
-    ../chess/chess.pro

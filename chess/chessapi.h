@@ -38,6 +38,7 @@ public:
     MoveList getAttackList(Move from);
     Move checkMate(Color color);
     ChessRes getRes();
+    Color getColor();
     ChessPiece* piece(Move pos);
 
     bool attack(Move from, Move to);
