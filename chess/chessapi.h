@@ -36,6 +36,8 @@ public:
 
     MoveList getMoveList(Move from);
     MoveList getAttackList(Move from);
+    MoveList getCastling(Move from);            // first move for king, second for rook
+
     Move checkMate(Color color);
     ChessRes getRes();
     Color getColor();

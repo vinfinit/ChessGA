@@ -21,6 +21,7 @@ class ChessWrapper : public QObject
 
     Q_PROPERTY(QList<int> moveList READ moveList WRITE setMoveList NOTIFY moveListChanged)
     Q_PROPERTY(QList<int> attackList READ attackList WRITE setAttackList NOTIFY attackListChanged)
+    Q_PROPERTY(QList<int> castlingList READ castlingList WRITE setCastlingList NOTIFY castlingListChanged)
     Q_PROPERTY(int check READ check WRITE setCheck NOTIFY checkChanged)
     public:
         explicit ChessWrapper(QObject *parent = 0);
@@ -56,6 +57,9 @@ class ChessWrapper : public QObject
         QList<int> attackList();
         void setAttackList(QList<int> attackList);
 
+        QList<int> castlingList();
+        void setCastlingList(QList<int> castlingList);
+
         int check();
         void setCheck(int);
 
@@ -71,6 +75,7 @@ class ChessWrapper : public QObject
         void resChanged();
         void checkChanged();
         void playersChanged();
+        void castlingListChanged();
 
     public slots:
 

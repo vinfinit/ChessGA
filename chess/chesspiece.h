@@ -21,6 +21,7 @@ protected:
     ChessType type;
     Move curPos;
     Color color;
+    bool _enabled;
 public:
     ChessPiece(ChessType type, Move curPos, Color color);
     ~ChessPiece();
@@ -35,6 +36,9 @@ public:
     Color getColor() const { return color; }
 
     void move(Move to) { curPos = to; }
+
+    void setEnable(bool enable) { _enabled = enable; }
+    bool isEnabled() { return _enabled; }
 };
 
 #endif // CHESSPIECE_H

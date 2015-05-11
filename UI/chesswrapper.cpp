@@ -136,6 +136,16 @@ QList<int> ChessWrapper::attackList() {
 
 void ChessWrapper::setAttackList(QList<int>) {}
 
+QList<int> ChessWrapper::castlingList() {
+    MoveList list = _api->getCastling({_pos % 8, _pos / 8});
+    QList<int> res;
+    for (auto attack : list)
+        res.push_back(attack[0] + attack[1] * 8);
+    return res;
+}
+
+void ChessWrapper::setCastlingList(QList<int>) {}
+
 int ChessWrapper::check() {
     Move check = _api->checkMate(Color::White);
     if (!check.size()) check = _api->checkMate(Color::Black);

@@ -85,6 +85,13 @@ ApplicationWindow {
                     wrapper.flag = true;
                 }
 
+                function castlingList(list) {
+                    list.forEach(function(item) {
+                        blocks.itemAt(item).color = "#050";
+                    });
+                    wrapper.flag = true;
+                }
+
                 function checkColor(pos) {
                     console.log("check color");
                     blocks.itemAt(pos).color = "#404"
@@ -108,13 +115,14 @@ ApplicationWindow {
                     onClicked: move();
 
                     function move() {
-                        var moveList, attackList;
+                        var moveList, attackList, castlingList;
 
                         if (!wrapper.flag) {
                             wrapper.pos = parent.getIndex();
                             wrapper.moveFrom = parent.getIndex();
                             moveList = wrapper.moveList;
                             attackList = wrapper.attackList;
+                            castlingList = wrapper.castlingList;
                         } else {
                             wrapper.moveTo = parent.getIndex();
                             wrapper.flag = false;
@@ -123,12 +131,14 @@ ApplicationWindow {
 
                         if (wrapper.check !== -1) parent.checkColor(wrapper.check)
 
-                        if (moveList || attackList) {
+                        if (moveList || attackList || castlingList) {
                             parent.moveColor(moveList);
                             parent.attackColor(attackList);
+                            parent.castlingList(castlingList);
                         }
                         console.log("onClicked: ", parent.getIndex(), "moveList", moveList);
                         console.log("onClicked: ", parent.getIndex(), "attackList", attackList);
+                        console.log("onClicked: ", parent.getIndex(), "castlingList", castlingList);
                         parent.repaint();
                     }
                 }

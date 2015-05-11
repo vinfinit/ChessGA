@@ -3,7 +3,8 @@
 ChessPiece::ChessPiece(ChessType type, Move curPos, Color color) :
     type(type),
     curPos(curPos),
-    color(color) {}
+    color(color),
+    _enabled(true) {}
 
 ChessPiece::~ChessPiece() {
     curPos.clear();

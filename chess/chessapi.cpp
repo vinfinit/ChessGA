@@ -104,6 +104,49 @@ MoveList ChessAPI::getAttackList(Move from) {
 
     return attackList;
 }
+
+MoveList ChessAPI::getCastling(Move from) {
+    MoveList res;
+
+    auto enemies = next == Color::Black ? listWhiteChess : listBlackChess;
+    auto n = next == Color::White ? STARTFIELD : ENDFIELD;
+    auto king = piece(from);
+
+    auto leftRook = piece({STARTFIELD, n});
+    auto rightRook = piece({ENDFIELD, n});
+    auto leftCheck = true, rightCheck = true;
+
+    Move left1 = {STARTFIELD + 2, n}, left2 = {STARTFIELD + 3, n},
+            right1 = {ENDFIELD - 1, n}, right2 = {ENDFIELD - 2, n};
+
+    Move posKing;
+    if (next == Color::White) posKing = {ENDFIELD -3, STARTFIELD};
+    else posKing = {ENDFIELD - 3, ENDFIELD};
+
+    if (from == posKing && king) {
+        if (king->isEnabled() && king->getType() == ChessType::King && king->getColor() == next) {
+            for (auto i : enemies)
+                for (auto move : getAttackList(i->getCurPos())) {
+                    if (move == left1 || move == left2) leftCheck = false;
+                    if (move == right1 || move == right2) rightCheck = false;
+                }
+
+            if (leftCheck)
+                if (leftRook->getType() == ChessType::Rook
+                        && leftRook->isEnabled()) res.push_back(left1);
+
+            if (rightCheck)
+                if (rightRook->getType() == ChessType::Rook
+                        && rightRook->isEnabled()) res.push_back(right1);
+
+        } else {
+            return {};
+        }
+    }
+
+    return res;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ChessAPI::move(Move from, Move to) {
