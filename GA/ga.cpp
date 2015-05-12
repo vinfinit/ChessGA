@@ -15,8 +15,7 @@ Color GA::color() { return _color; }
 MoveList GA::move(Move from, Move to) {
     qDebug() << "GA move in GA\n";
     if (_first) return generateMove();
-    if (_api->move(from, to)) return generateMove();
-    else if (_api->attack(from, to)) return generateMove();
+    if (_api->attack(from, to) || _api->move(from, to) || _api->castle(from, to)) return generateMove();
     else return {};
 }
 

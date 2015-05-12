@@ -35,7 +35,7 @@ public:
     ChessType getType() const { return type; }
     Color getColor() const { return color; }
 
-    void move(Move to) { curPos = to; }
+    void move(Move to) { curPos = to; _enabled = false; }
 
     void setEnable(bool enable) { _enabled = enable; }
     bool isEnabled() { return _enabled; }

@@ -45,6 +45,7 @@ public:
 
     bool attack(Move from, Move to);
     bool move(Move from, Move to);
+    bool castle(Move from, Move to);
 };
 
 #endif // CHESSAPI_H

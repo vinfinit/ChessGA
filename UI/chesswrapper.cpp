@@ -34,7 +34,9 @@ int ChessWrapper::moveTo() { return _pos; }
 void ChessWrapper::setMoveTo(int to) {
     qDebug() << "setMoveTo curColor: " << (_api->getColor() == Color::White ? "White" : "Black");
     qDebug() << "setMoveTo GAcolor: " << (_ga->color() == Color::White ? "White" : "Black");
-    if (_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) || _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8})) {
+    if (_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) ||
+            _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) ||
+            _api->castle({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8})) {
         if (!_players) {
             auto list = _ga->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
             if (list.size() == 2 && list[0].size() == 2 && list[1].size() == 2)

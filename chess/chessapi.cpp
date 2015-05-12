@@ -43,13 +43,10 @@ MoveList ChessAPI::getMoveList(Move from) {
     for (auto item : list)
         if (item->getCurPos() == from) {
             moveList = mutableMove(item);
-            qDebug() << "moveList all good\n";
             for (auto i : moveList) {
                 item->move(i);
-                if (checkMate(next).size()) {
-                    qDebug() << "King was dangerous !!!!!!!!!!\n";
+                if (checkMate(next).size())
                     blockList.push_back(i);
-                }
                 item->move(from);
                 qDebug() << i[0] << ' ' << i[1] << '\n';
             }
@@ -57,19 +54,13 @@ MoveList ChessAPI::getMoveList(Move from) {
         }
 
     // remove from moveList blockList values
-    for (auto move : blockList) {
-        qDebug() << "Block list new " << move[0] << ' ' << move[1] << '\n';
-        if (next == Color::White)
-            qDebug() << "white\n";
-        else qDebug() << "Black\n";
+    for (auto move : blockList)
         moveList.erase(std::remove(moveList.begin(), moveList.end(), move), moveList.end());
-    }
 
     return moveList;
 }
 
 MoveList ChessAPI::getAttackList(Move from) {
-//    if (getRes() != ChessRes::None) return {};
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
     ChessPiece* tmp;
     MoveList attackList, blockList;
@@ -77,46 +68,35 @@ MoveList ChessAPI::getAttackList(Move from) {
     for (auto item : list)
         if (item->getCurPos() == from) {
             attackList = mutableAttack(item);
-            qDebug() << "attackList all good\n";
             for (auto i : attackList) {
                 tmp = piece(i);
                 this->removeChessPiece(i);
                 item->move(i);
-                if (checkMate(next).size()) {
-                    qDebug() << "King was dangerous !!!!!!!!!!\n";
+                if (checkMate(next).size())
                     blockList.push_back(i);
-                }
                 item->move(from);
                 (next == Color::White ? listBlackChess : listWhiteChess).push_back(tmp);
-                qDebug() << i[0] << ' ' << i[1] << '\n';
             }
             break;
         }
 
     // remove from attackList blockList values
-    for (auto move : blockList) {
-        qDebug() << "Block list new " << move[0] << ' ' << move[1] << '\n';
-        if (next == Color::White)
-            qDebug() << "white\n";
-        else qDebug() << "Black\n";
+    for (auto move : blockList)
         attackList.erase(std::remove(attackList.begin(), attackList.end(), move), attackList.end());
-    }
 
     return attackList;
 }
 
 MoveList ChessAPI::getCastling(Move from) {
     MoveList res;
-
-    auto enemies = next == Color::Black ? listWhiteChess : listBlackChess;
     auto n = next == Color::White ? STARTFIELD : ENDFIELD;
     auto king = piece(from);
 
     auto leftRook = piece({STARTFIELD, n});
     auto rightRook = piece({ENDFIELD, n});
-    auto leftCheck = true, rightCheck = true;
+    auto leftCheck = false, rightCheck = false;
 
-    Move left1 = {STARTFIELD + 2, n}, left2 = {STARTFIELD + 3, n},
+    Move left1 = {STARTFIELD + 1, n}, left2 = {STARTFIELD + 2, n}, left3 = {STARTFIELD + 3, n},
             right1 = {ENDFIELD - 1, n}, right2 = {ENDFIELD - 2, n};
 
     Move posKing;
@@ -125,15 +105,16 @@ MoveList ChessAPI::getCastling(Move from) {
 
     if (from == posKing && king) {
         if (king->isEnabled() && king->getType() == ChessType::King && king->getColor() == next) {
-            for (auto i : enemies)
-                for (auto move : getAttackList(i->getCurPos())) {
-                    if (move == left1 || move == left2) leftCheck = false;
-                    if (move == right1 || move == right2) rightCheck = false;
-                }
+            for (auto move : getMoveList(king->getCurPos())) {
+                qDebug() << "In castling: " << "move: " << move[0] << move[1] << '\n';
+                qDebug() << "In castling: " << "left2: " << left3[0] << left3[1] << '\n';
+                if (move == left3 && !piece(left1) && !piece(left2)) leftCheck = true;
+                if (move == right2 && !piece(right1)) rightCheck = true;
+            }
 
             if (leftCheck)
                 if (leftRook->getType() == ChessType::Rook
-                        && leftRook->isEnabled()) res.push_back(left1);
+                        && leftRook->isEnabled()) res.push_back(left2);
 
             if (rightCheck)
                 if (rightRook->getType() == ChessType::Rook
@@ -150,7 +131,6 @@ MoveList ChessAPI::getCastling(Move from) {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 bool ChessAPI::move(Move from, Move to) {
-//    if (getRes() != ChessRes::None) return {};
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
     for (auto item : list)
         if (item->getCurPos() == from)
@@ -167,7 +147,6 @@ bool ChessAPI::move(Move from, Move to) {
 }
 
 bool ChessAPI::attack(Move from, Move to) {
-//    if (getRes() != ChessRes::None) return {};
     ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
     for (auto item : list)
         if (item->getCurPos() == from)
@@ -181,6 +160,23 @@ bool ChessAPI::attack(Move from, Move to) {
                     return true;
                 }
     std::cout << "attack false" << std::endl;
+    return false;
+}
+
+bool ChessAPI::castle(Move from, Move to) {
+    ChessList list = next == Color::White ? listWhiteChess : listBlackChess;
+    for (auto item : list)
+        if (item->getCurPos() == from)
+            for (auto move : getCastling(from))
+                if (to == move) {
+                    item->move(to);
+                    if (from[1] - to[1] > 0) piece({STARTFIELD, from[1]})->move({STARTFIELD + 3, from[1]});
+                    else piece({ENDFIELD, from[1]})->move({ENDFIELD - 2, from[1]});
+                    next = next == Color::White ? Color::Black : Color::White;
+                    std::cout << "castle true" << std::endl;
+                    return true;
+                }
+    std::cout << "castle false" << std::endl;
     return false;
 }
 
@@ -239,7 +235,6 @@ ChessPiece* ChessAPI::piece(Move pos) {
 }
 
 bool ChessAPI::removeChessPiece(Move pos) {
-    std::cout << "in remove chess\n";
     ChessPiece* chess = nullptr;
     for (auto item : listBlackChess)
         if(item->getCurPos() == pos)
@@ -256,7 +251,6 @@ bool ChessAPI::removeChessPiece(Move pos) {
 }
 
 bool ChessAPI::checkImprovePawn() {
-    std::cout << "in checkImprovePawn\n";
     ChessPiece* chess = nullptr;
     for (auto item : listBlackChess)
         if (item->getType() == ChessType::Pawn && item->getCurPos()[1] == 0)
@@ -284,7 +278,6 @@ Move ChessAPI::checkMate(Color color) {
     for (auto chess : list)
         if (chess->getType() == ChessType::King)
             kingPos = chess->getCurPos();
-    qDebug() << "in checkMate king pos " << kingPos[0] << ' ' << kingPos[1] << '\n';
 
     list.clear();
     list = color == Color::White ? listBlackChess : listWhiteChess;
@@ -292,9 +285,9 @@ Move ChessAPI::checkMate(Color color) {
     next = next == Color::White ? Color::Black : Color::White;
     for (auto chess : list) {
         for (auto move : mutableAttack(chess)) {
-            qDebug() << "in checkMate " << move[0] << ' ' << move[1] << '\n';
             if (move == kingPos) {
                 next = next == Color::White ? Color::Black : Color::White;
+                piece(kingPos)->setEnable(false);
                 return kingPos;
             }
         }
