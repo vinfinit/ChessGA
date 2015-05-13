@@ -48,7 +48,6 @@ MoveList ChessAPI::getMoveList(Move from) {
                 if (checkMate(next).size())
                     blockList.push_back(i);
                 item->move(from);
-                qDebug() << i[0] << ' ' << i[1] << '\n';
             }
             break;
         }
@@ -88,6 +87,7 @@ MoveList ChessAPI::getAttackList(Move from) {
 }
 
 MoveList ChessAPI::getCastling(Move from) {
+    qDebug() << "In getCastling()\n";
     MoveList res;
     auto n = next == Color::White ? STARTFIELD : ENDFIELD;
     auto king = piece(from);
@@ -98,16 +98,12 @@ MoveList ChessAPI::getCastling(Move from) {
 
     Move left1 = {STARTFIELD + 1, n}, left2 = {STARTFIELD + 2, n}, left3 = {STARTFIELD + 3, n},
             right1 = {ENDFIELD - 1, n}, right2 = {ENDFIELD - 2, n};
-
-    Move posKing;
-    if (next == Color::White) posKing = {ENDFIELD -3, STARTFIELD};
-    else posKing = {ENDFIELD - 3, ENDFIELD};
+    Move posKing = {ENDFIELD - 3, n};
 
     if (from == posKing && king) {
         if (king->isEnabled() && king->getType() == ChessType::King && king->getColor() == next) {
+            qDebug() << "Near for";
             for (auto move : getMoveList(king->getCurPos())) {
-                qDebug() << "In castling: " << "move: " << move[0] << move[1] << '\n';
-                qDebug() << "In castling: " << "left2: " << left3[0] << left3[1] << '\n';
                 if (move == left3 && !piece(left1) && !piece(left2)) leftCheck = true;
                 if (move == right2 && !piece(right1)) rightCheck = true;
             }
@@ -124,7 +120,6 @@ MoveList ChessAPI::getCastling(Move from) {
             return {};
         }
     }
-
     return res;
 }
 
@@ -137,6 +132,7 @@ bool ChessAPI::move(Move from, Move to) {
             for (auto move : getMoveList(from))
                 if (to == move) {
                     item->move(to);
+                    item->setEnable(false);
                     next = next == Color::White ? Color::Black : Color::White;
                     std::cout << "move true" << std::endl;
                     checkImprovePawn();
@@ -154,6 +150,7 @@ bool ChessAPI::attack(Move from, Move to) {
                 if (to == move) {
                     this->removeChessPiece(to);
                     item->move(to);
+                    item->setEnable(false);
                     next = next == Color::White ? Color::Black : Color::White;
                     std::cout << "attack true" << std::endl;
                     checkImprovePawn();
@@ -170,7 +167,8 @@ bool ChessAPI::castle(Move from, Move to) {
             for (auto move : getCastling(from))
                 if (to == move) {
                     item->move(to);
-                    if (from[1] - to[1] > 0) piece({STARTFIELD, from[1]})->move({STARTFIELD + 3, from[1]});
+                    item->setEnable(false);
+                    if (from[0] - to[0] > 0) piece({STARTFIELD, from[1]})->move({STARTFIELD + 3, from[1]});
                     else piece({ENDFIELD, from[1]})->move({ENDFIELD - 2, from[1]});
                     next = next == Color::White ? Color::Black : Color::White;
                     std::cout << "castle true" << std::endl;

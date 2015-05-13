@@ -141,8 +141,8 @@ void ChessWrapper::setAttackList(QList<int>) {}
 QList<int> ChessWrapper::castlingList() {
     MoveList list = _api->getCastling({_pos % 8, _pos / 8});
     QList<int> res;
-    for (auto attack : list)
-        res.push_back(attack[0] + attack[1] * 8);
+    for (auto castling : list)
+        res.push_back(castling[0] + castling[1] * 8);
     return res;
 }
 
