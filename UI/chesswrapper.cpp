@@ -7,9 +7,17 @@ ChessWrapper::ChessWrapper(QObject *parent) :
 
 ChessWrapper::~ChessWrapper() {}
 
+void ChessWrapper::restart() {
+    if (_api) delete _api;
+    _api = new ChessAPI();
+
+    if (_ga) delete _ga;
+}
+
 int ChessWrapper::colorGA() { return _ga->color() == Color::White ? 0 : 1; }
 
 void ChessWrapper::setColorGA(int color) {
+    restart();
     _ga = new GA(color == 0 ? Color::White : Color::Black);
     if (_ga->color() == Color::White) {
         auto list = _ga->move({}, {});
@@ -19,7 +27,10 @@ void ChessWrapper::setColorGA(int color) {
     qDebug() << "setColorGA: " << (_ga->color() == Color::White ? "White" : "Black");
 }
 
-int ChessWrapper::players() { return _players; }
+int ChessWrapper::players() {
+    restart();
+    return _players;
+}
 
 void ChessWrapper::setPlayers(int number) { _players = number; }
 

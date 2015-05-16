@@ -89,6 +89,8 @@ class ChessWrapper : public QObject
         QString _type;
         QString _color;
         int _moveFrom;
+
+        void restart();
 };
 
 #endif // CHESSWRAPPER_H

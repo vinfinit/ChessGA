@@ -196,8 +196,10 @@ ApplicationWindow {
 
             wrapper.colorGA = curColor == 0 ? 1 : 0;
             wrapper.players = curPlayers;
+            wrapper.flag = false;
             loadWindow.hide();
             blocks.itemAt(0).repaint();
+            blocks.itemAt(0).refresh();
         }
     }
 
