@@ -1,18 +1,22 @@
 #include "chessapi.h"
 #include <set>
-#include <QDebug>
-
-#include <iostream>
 
 ChessAPI::ChessAPI() :
     next(Color::White), res(ChessRes::None)
 {
-    qDebug() << "Init\n";
     listWhiteChess = init(Color::White);
     listBlackChess = init(Color::Black);
 }
 
-ChessAPI::~ChessAPI() {}
+ChessAPI::ChessAPI(const ChessAPI& api) {
+    listWhiteChess = api.getWhiteChess();
+    listBlackChess = api.getBlackChess();
+}
+
+ChessAPI::~ChessAPI() {
+    listBlackChess.clear();
+    listWhiteChess.clear();
+}
 
 ChessList ChessAPI::init(Color color) {
     int n = color == Color::Black ? ENDFIELD : STARTFIELD;
@@ -87,7 +91,6 @@ MoveList ChessAPI::getAttackList(Move from) {
 }
 
 MoveList ChessAPI::getCastling(Move from) {
-    qDebug() << "In getCastling()\n";
     MoveList res;
     auto n = next == Color::White ? STARTFIELD : ENDFIELD;
     auto king = piece(from);
@@ -102,7 +105,6 @@ MoveList ChessAPI::getCastling(Move from) {
 
     if (from == posKing && king) {
         if (king->isEnabled() && king->getType() == ChessType::King && king->getColor() == next) {
-            qDebug() << "Near for";
             for (auto move : getMoveList(king->getCurPos())) {
                 if (move == left3 && !piece(left1) && !piece(left2)) leftCheck = true;
                 if (move == right2 && !piece(right1)) rightCheck = true;
@@ -134,11 +136,9 @@ bool ChessAPI::move(Move from, Move to) {
                     item->move(to);
                     item->setEnable(false);
                     next = next == Color::White ? Color::Black : Color::White;
-                    std::cout << "move true" << std::endl;
                     checkImprovePawn();
                     return true;
                 }
-    std::cout << "move false" << std::endl;
     return false;
 }
 
@@ -152,11 +152,9 @@ bool ChessAPI::attack(Move from, Move to) {
                     item->move(to);
                     item->setEnable(false);
                     next = next == Color::White ? Color::Black : Color::White;
-                    std::cout << "attack true" << std::endl;
                     checkImprovePawn();
                     return true;
                 }
-    std::cout << "attack false" << std::endl;
     return false;
 }
 
@@ -171,10 +169,8 @@ bool ChessAPI::castle(Move from, Move to) {
                     if (from[0] - to[0] > 0) piece({STARTFIELD, from[1]})->move({STARTFIELD + 3, from[1]});
                     else piece({ENDFIELD, from[1]})->move({ENDFIELD - 2, from[1]});
                     next = next == Color::White ? Color::Black : Color::White;
-                    std::cout << "castle true" << std::endl;
                     return true;
                 }
-    std::cout << "castle false" << std::endl;
     return false;
 }
 

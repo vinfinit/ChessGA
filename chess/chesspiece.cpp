@@ -1,4 +1,5 @@
 #include "chesspiece.h"
+#include <algorithm>
 
 ChessPiece::ChessPiece(ChessType type, Move curPos, Color color) :
     type(type),

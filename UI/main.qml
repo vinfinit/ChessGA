@@ -36,8 +36,14 @@ ApplicationWindow {
     Grid {
         id: qml_grid_chessGrid
         spacing: 0
-        width: parent.height
-        height: parent.height
+        width: {
+            if (parent.height < parent.width) return parent.height;
+            return parent.width;
+        }
+        height: {
+            if (parent.height < parent.width) return parent.height;
+            return parent.width;
+        }
         rows: 8
         columns: 8
 

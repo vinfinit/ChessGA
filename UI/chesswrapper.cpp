@@ -50,9 +50,10 @@ void ChessWrapper::setMoveTo(int to) {
             _api->castle({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8})) {
         if (!_players) {
             auto list = _ga->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
-            if (list.size() == 2 && list[0].size() == 2 && list[1].size() == 2)
-                if (!_api->move(list[0], list[1]))
-                    _api->attack(list[0], list[1]);
+            if (list.size() == 2)
+                if (list[0].size() == 2 && list[1].size() == 2)
+                    if (!_api->move(list[0], list[1]))
+                        _api->attack(list[0], list[1]);
         }
     }
 }

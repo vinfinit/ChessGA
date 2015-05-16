@@ -2,6 +2,7 @@
 #define GA_H
 
 #include "../chess/chessapi.h"
+#include <random>
 
 class GA
 {
@@ -16,7 +17,13 @@ private:
     Color _color;
     bool _first;
 
-    MoveList generateMove();
+    MoveList startGeneration();
+    MoveList generation();
+    Move generateMove();
+
+    int fitness(ChessAPI* api);
+    int getWeight(ChessPiece* piece);
+    void enemyMove(ChessAPI* api);
 };
 
 #endif // GA_H

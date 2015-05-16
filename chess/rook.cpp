@@ -1,4 +1,5 @@
 #include "rook.h"
+#include <algorithm>
 
 Rook::~Rook() {}
 

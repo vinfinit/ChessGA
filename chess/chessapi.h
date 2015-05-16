@@ -32,7 +32,11 @@ private:
     ChessRes res;
 public:
     ChessAPI();
+    ChessAPI(const ChessAPI& api);
     ~ChessAPI();
+
+    ChessList getWhiteChess() const { return listWhiteChess; }
+    ChessList getBlackChess() const { return listBlackChess; }
 
     MoveList getMoveList(Move from);
     MoveList getAttackList(Move from);

@@ -1,4 +1,5 @@
 #include "queen.h"
+#include <algorithm>
 
 Queen::~Queen() {}
 
