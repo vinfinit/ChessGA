@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick widgets
+QT += qml quick widgets network
 
 CONFIG += c++11
 
@@ -14,7 +14,9 @@ SOURCES += main.cpp \
     ../chess/pawn.cpp \
     ../chess/queen.cpp \
     ../chess/rook.cpp \
-    ../GA/ga.cpp
+    ../GA/ga.cpp \
+    ../server/server.cpp \
+    ../client/client.cpp
 
 RESOURCES += qml.qrc \
     images.qrc
@@ -35,7 +37,9 @@ HEADERS += \
     ../chess/pawn.h \
     ../chess/queen.h \
     ../chess/rook.h \
-    ../GA/ga.h
+    ../GA/ga.h \
+    ../server/server.h \
+    ../client/client.h
 
 SUBDIRS += \
     ../chess/chess.pro

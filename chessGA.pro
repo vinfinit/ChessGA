@@ -3,4 +3,6 @@ TEMPLATE = subdirs
 SUBDIRS += \
     chess \
     UI \
-    GA
+    GA \
+    server \
+    client

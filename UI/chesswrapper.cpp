@@ -2,10 +2,32 @@
 #include <QDebug>
 
 ChessWrapper::ChessWrapper(QObject *parent) :
-    QObject(parent), _api(nullptr), _ga(nullptr), _players(0), _pos(0), _type(""), _color(""), _moveFrom(0)
-{ _api = new ChessAPI(); }
+    QObject(parent), _api(nullptr), _ga(nullptr),
+    _players(0), _server(nullptr), _client(nullptr),
+    _pos(0), _type(""), _color(""), _moveFrom(0)
+{
+    _api = new ChessAPI();
+}
 
 ChessWrapper::~ChessWrapper() {}
+
+bool ChessWrapper::host() {
+    if (_server) return true;
+    return false;
+}
+
+void ChessWrapper::setHost(bool host) {
+    if (host) _server = new Server();
+}
+
+bool ChessWrapper::client() {
+    if (_client) return true;
+    return false;
+}
+
+void ChessWrapper::setClient(bool client) {
+    if (client) _client = new Client();
+}
 
 void ChessWrapper::restart() {
     if (_api) delete _api;
@@ -44,11 +66,23 @@ int ChessWrapper::moveTo() { return _pos; }
 
 void ChessWrapper::setMoveTo(int to) {
     qDebug() << "setMoveTo curColor: " << (_api->getColor() == Color::White ? "White" : "Black");
-    qDebug() << "setMoveTo GAcolor: " << (_ga->color() == Color::White ? "White" : "Black");
+//    qDebug() << "setMoveTo GAcolor: " << (_ga->color() == Color::White ? "White" : "Black");
     if (_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) ||
             _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) ||
             _api->castle({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8})) {
-        if (!_players) {
+        if (_server) {
+            qDebug() << "in if server";
+            _server->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
+            // list = _client
+//            if (list.size() == 2)
+//                if (list[0].size() == 2 && list[1].size() == 2)
+//                    if (!_api->move(list[0], list[1]))
+//                        _api->attack(list[0], list[1]);
+        } else if (_client) {
+            qDebug() << "in if client";
+            _client->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
+
+        } else if (!_players) {
             auto list = _ga->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
             if (list.size() == 2)
                 if (list[0].size() == 2 && list[1].size() == 2)

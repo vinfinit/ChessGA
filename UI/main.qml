@@ -207,6 +207,21 @@ ApplicationWindow {
             blocks.itemAt(0).repaint();
             blocks.itemAt(0).refresh();
         }
+
+        function host() {
+            wrapper.host = true;
+            loadWindow.hide();
+            loadWindow.hide();
+            blocks.itemAt(0).repaint();
+            blocks.itemAt(0).refresh();
+        }
+
+        function client() {
+            wrapper.client = true;
+            loadWindow.hide();
+            blocks.itemAt(0).repaint();
+            blocks.itemAt(0).refresh();
+        }
     }
 
 }

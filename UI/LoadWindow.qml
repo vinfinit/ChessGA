@@ -13,6 +13,8 @@ Rectangle {
 
     property int curPlayers: 0
     property int curColor: 0
+//    property int host: 0
+//    property int client: 0
 
     onCurPlayersChanged: {
         one.checked = curPlayers == 0
@@ -122,6 +124,16 @@ Rectangle {
                 Button {
                     text: "Start"
                     onClicked: callback()
+                }
+
+                Button {
+                    text: "Host"
+                    onClicked: host()
+                }
+
+                Button {
+                    text: "Client"
+                    onClicked: client()
                 }
             }
         }

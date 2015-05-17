@@ -3,6 +3,8 @@
 
 #include "../chess/chessapi.h"
 #include "../GA/ga.h"
+#include "../server/server.h"
+#include "../client/client.h"
 
 #include <QObject>
 
@@ -15,6 +17,9 @@ class ChessWrapper : public QObject
     Q_PROPERTY(int res READ res WRITE setRes NOTIFY resChanged)
     Q_PROPERTY(int colorGA READ colorGA WRITE setColorGA NOTIFY colorGAChanged)
     Q_PROPERTY(int players READ players WRITE setPlayers NOTIFY playersChanged)
+
+    Q_PROPERTY(bool host READ host WRITE setHost NOTIFY hostChanged)
+    Q_PROPERTY(bool client READ client WRITE setClient NOTIFY clientChanged)
 
     Q_PROPERTY(int moveFrom READ moveFrom WRITE setMoveFrom NOTIFY moveFromChanged)
     Q_PROPERTY(int moveTo READ moveTo WRITE setMoveTo NOTIFY moveToChanged)
@@ -32,6 +37,12 @@ class ChessWrapper : public QObject
 
         int players();
         void setPlayers(int number);
+
+        bool host();
+        void setHost(bool host);
+
+        bool client();
+        void setClient(bool client);
 
         int pos();
         void setPos(int pos);
@@ -76,6 +87,8 @@ class ChessWrapper : public QObject
         void checkChanged();
         void playersChanged();
         void castlingListChanged();
+        void hostChanged();
+        void clientChanged();
 
     public slots:
 
@@ -84,6 +97,9 @@ class ChessWrapper : public QObject
         ChessAPI *_api;
         GA *_ga;
         int _players;
+
+        Server* _server;
+        Client* _client;
 
         int _pos;
         QString _type;
