@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QTextCodec>
 
-Client::Client(QObject *parent) : QObject(parent), _socket(nullptr)
+Client::Client(QObject *parent) : QObject(parent), _socket(nullptr), _from({0, 0}), _to({0, 0})
 { run(); }
 
 Client::~Client() {}
@@ -59,6 +59,15 @@ void Client::move(Move to, Move from) {
     str.append(QString::number(to[0]) + ' ' + QString::number(to[1]) + ' ' +
             QString::number(from[0]) + ' ' + QString::number(from[1]));
     qDebug() << "In client move: " << str;
+
     _socket->write(str.toUtf8());
 }
 
+MoveList Client::getMove() {
+    MoveList list;
+    list.push_back(_from);
+    list.push_back(_to);
+//    _from = {0, 0};
+//    _to = {0, 0};
+    return list;
+}

@@ -14,6 +14,7 @@ public:
 
     void run();
     void move(Move to, Move from);
+    MoveList getMove();
 signals:
 
 public slots:

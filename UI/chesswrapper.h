@@ -73,6 +73,7 @@ class ChessWrapper : public QObject
 
         int check();
         void setCheck(int);
+        Q_INVOKABLE void refresh();
 
     signals:
         void colorGAChanged();

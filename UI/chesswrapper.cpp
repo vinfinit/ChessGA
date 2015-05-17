@@ -17,6 +17,7 @@ bool ChessWrapper::host() {
 }
 
 void ChessWrapper::setHost(bool host) {
+    restart();
     if (host) _server = new Server();
 }
 
@@ -26,6 +27,7 @@ bool ChessWrapper::client() {
 }
 
 void ChessWrapper::setClient(bool client) {
+    restart();
     if (client) _client = new Client();
 }
 
@@ -34,6 +36,20 @@ void ChessWrapper::restart() {
     _api = new ChessAPI();
 
     if (_ga) delete _ga;
+}
+
+void ChessWrapper::refresh() {
+    MoveList list;
+    if (_server) {
+        list = _server->getMove();
+    } else if (_client) {
+        list = _client->getMove();
+    }
+    if (list.size() == 2) {
+        _api->attack(list[0], list[1]);
+        _api->move(list[0], list[1]);
+        _api->castle(list[0], list[1]);
+    }
 }
 
 int ChessWrapper::colorGA() { return _ga->color() == Color::White ? 0 : 1; }
@@ -65,6 +81,7 @@ void ChessWrapper::setPos(int pos) {
 int ChessWrapper::moveTo() { return _pos; }
 
 void ChessWrapper::setMoveTo(int to) {
+    refresh();
     qDebug() << "setMoveTo curColor: " << (_api->getColor() == Color::White ? "White" : "Black");
 //    qDebug() << "setMoveTo GAcolor: " << (_ga->color() == Color::White ? "White" : "Black");
     if (_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) ||
@@ -73,15 +90,9 @@ void ChessWrapper::setMoveTo(int to) {
         if (_server) {
             qDebug() << "in if server";
             _server->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
-            // list = _client
-//            if (list.size() == 2)
-//                if (list[0].size() == 2 && list[1].size() == 2)
-//                    if (!_api->move(list[0], list[1]))
-//                        _api->attack(list[0], list[1]);
         } else if (_client) {
             qDebug() << "in if client";
             _client->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
-
         } else if (!_players) {
             auto list = _ga->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
             if (list.size() == 2)

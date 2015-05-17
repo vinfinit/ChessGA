@@ -188,6 +188,18 @@ ApplicationWindow {
         }
     }
 
+    Timer {
+        id: timer
+        interval: 1000
+        running: false
+        repeat: true
+        onTriggered: {
+            console.log("timer")
+            wrapper.refresh();
+            blocks.itemAt(0).repaint();
+        }
+    }
+
     About {
         id: aboutWindow
     }
@@ -206,6 +218,7 @@ ApplicationWindow {
             loadWindow.hide();
             blocks.itemAt(0).repaint();
             blocks.itemAt(0).refresh();
+            timer.running = true;
         }
 
         function host() {
@@ -214,6 +227,7 @@ ApplicationWindow {
             loadWindow.hide();
             blocks.itemAt(0).repaint();
             blocks.itemAt(0).refresh();
+            timer.running = true;
         }
 
         function client() {
@@ -221,6 +235,7 @@ ApplicationWindow {
             loadWindow.hide();
             blocks.itemAt(0).repaint();
             blocks.itemAt(0).refresh();
+            timer.running = true;
         }
     }
 

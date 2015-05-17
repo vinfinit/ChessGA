@@ -1,5 +1,6 @@
 #include "chessapi.h"
 #include <set>
+#include <algorithm>
 
 ChessAPI::ChessAPI() :
     next(Color::White), res(ChessRes::None)

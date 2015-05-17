@@ -2,7 +2,7 @@
 #include <QTextCodec>
 
 Server::Server(QObject *parent)
-    : QObject(parent), _server(nullptr), _client(nullptr)
+    : QObject(parent), _server(nullptr), _client(nullptr), _from({0, 0}), _to({0, 0})
 {
     _server = new QTcpServer(this);
 
@@ -48,5 +48,14 @@ void Server::move(Move to, Move from) {
     str.append(QString::number(to[0]) + ' ' + QString::number(to[1]) + ' ' +
             QString::number(from[0]) + ' ' + QString::number(from[1]));
     qDebug() << "In server move: " << str;
+
     _client->write(str.toUtf8());
+}
+
+MoveList Server::getMove() {
+    MoveList list;
+    list.push_back(_from);
+    list.push_back(_to);
+
+    return list;
 }

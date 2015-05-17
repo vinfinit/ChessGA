@@ -8,7 +8,9 @@ Image {
     y: parent.width / 2 - height / 2
 
     function updateIcon(type, color) {
-        return "qrc:/ChessPieces/Images/ChessPieces/" + type + "_" + color + ".svg"
+        if (type && color)
+            return "qrc:/ChessPieces/Images/ChessPieces/" + type + "_" + color + ".svg"
+        return ""
     }
 }
 
