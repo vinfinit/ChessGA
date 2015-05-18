@@ -62,7 +62,7 @@ void ChessWrapper::setColorGA(int color) {
         if (!_api->move(list[0], list[1]))
             _api->attack(list[0], list[1]);
     }
-    qDebug() << "setColorGA: " << (_ga->color() == Color::White ? "White" : "Black");
+//    qDebug() << "setColorGA: " << (_ga->color() == Color::White ? "White" : "Black");
 }
 
 int ChessWrapper::players() {
@@ -82,7 +82,7 @@ int ChessWrapper::moveTo() { return _pos; }
 
 void ChessWrapper::setMoveTo(int to) {
     refresh();
-    qDebug() << "setMoveTo curColor: " << (_api->getColor() == Color::White ? "White" : "Black");
+//    qDebug() << "setMoveTo curColor: " << (_api->getColor() == Color::White ? "White" : "Black");
 //    qDebug() << "setMoveTo GAcolor: " << (_ga->color() == Color::White ? "White" : "Black");
     if (_api->attack({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) ||
             _api->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8}) ||
@@ -94,11 +94,13 @@ void ChessWrapper::setMoveTo(int to) {
             qDebug() << "in if client";
             _client->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
         } else if (!_players) {
-            auto list = _ga->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
-            if (list.size() == 2)
-                if (list[0].size() == 2 && list[1].size() == 2)
-                    if (!_api->move(list[0], list[1]))
-                        _api->attack(list[0], list[1]);
+            if (_ga) {
+                auto list = _ga->move({_moveFrom % 8, _moveFrom / 8}, {to % 8, to / 8});
+                if (list.size() == 2)
+                    if (list[0].size() == 2 && list[1].size() == 2)
+                        if (!_api->move(list[0], list[1]))
+                            _api->attack(list[0], list[1]);
+            }
         }
     }
 }
@@ -209,7 +211,7 @@ int ChessWrapper::check() {
     Move check = _api->checkMate(Color::White);
     if (!check.size()) check = _api->checkMate(Color::Black);
     if (!check.size()) return -1;
-    return check[0] + check[1] * 8;
+    if (check.size() == 2) return check[0] + check[1] * 8;
 }
 
 void ChessWrapper::setCheck(int) {}

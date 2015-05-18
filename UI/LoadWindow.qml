@@ -13,8 +13,6 @@ Rectangle {
 
     property int curPlayers: 0
     property int curColor: 0
-//    property int host: 0
-//    property int client: 0
 
     onCurPlayersChanged: {
         one.checked = curPlayers == 0
@@ -57,6 +55,7 @@ Rectangle {
         z: 100
 
         border.color: "gray"
+        color: "#B68427"
 
         MouseArea {
             anchors.fill: parent;
@@ -121,19 +120,21 @@ Rectangle {
                     }
                 }
 
-                Button {
-                    text: "Start"
-                    onClicked: callback()
-                }
+                Row {
+                    Button {
+                        text: "Start"
+                        onClicked: callback()
+                    }
 
-                Button {
-                    text: "Host"
-                    onClicked: host()
-                }
+                    Button {
+                        text: "Host"
+                        onClicked: host()
+                    }
 
-                Button {
-                    text: "Client"
-                    onClicked: client()
+                    Button {
+                        text: "Client"
+                        onClicked: client()
+                    }
                 }
             }
         }

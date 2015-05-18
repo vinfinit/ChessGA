@@ -48,8 +48,7 @@ void Server::move(Move to, Move from) {
     str.append(QString::number(to[0]) + ' ' + QString::number(to[1]) + ' ' +
             QString::number(from[0]) + ' ' + QString::number(from[1]));
     qDebug() << "In server move: " << str;
-
-    _client->write(str.toUtf8());
+    if (_client) _client->write(str.toUtf8());
 }
 
 MoveList Server::getMove() {
